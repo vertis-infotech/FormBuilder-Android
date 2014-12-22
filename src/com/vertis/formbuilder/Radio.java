@@ -17,12 +17,11 @@ import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 class Radio implements IField {
-    private FieldConfig config;
-	
+	private FieldConfig config;
+
 	// Default Values 
-	boolean otherRequired = false;
+	boolean otherRequired = true;
 	String otherHeading = "";
-	int defaultValueSelected = 0;
 	ArrayList<String> options = new ArrayList<String>();
 
 	// Views
@@ -35,6 +34,7 @@ class Radio implements IField {
 	String cid;
 	@Expose
 	String optionSelected;
+	int positionSelected = 0;
 	@Expose
 	String other;
 
@@ -43,6 +43,10 @@ class Radio implements IField {
 	}
 
 	public void createForm(Activity context) {
+		options.add("male");
+		options.add("female");
+		otherHeading="other";
+		
 		subForm = new LinearLayout(context);
 		ViewLookup.mapField(this.config.getCid()+"_1", subForm);
 		subForm.setOrientation(LinearLayout.VERTICAL);
@@ -54,23 +58,24 @@ class Radio implements IField {
 		subForm.addView(radioGroup);
 		int i = 0;
 		for (i = 0; i < options.size(); i++) {
-			RadioButton button = new RadioButton(context);
-			ViewLookup.mapField(this.config.getCid()+"_1_1_"+Integer.toString(i), radioGroup);
-			button.setText(options.get(i));
-			radioGroup.addView(button);
-			if (i == defaultValueSelected)
-				radioGroup.check(button.getId());
-
+			addButton(i, context);
 		}
 		if (otherRequired) {
+			addButton(i, context);
 			otherTextBox = new EditText(context);
+			otherTextBox.setText(other);
 			subForm.addView(otherTextBox);
-			RadioButton button = new RadioButton(context);
-			ViewLookup.mapField(this.config.getCid()+"_1_1_"+Integer.toString(i), radioGroup);
-			button.setText(otherHeading);
-			radioGroup.addView(button);
-			if (i == defaultValueSelected)
-				radioGroup.check(button.getId());
+		}
+	}
+
+	void addButton(int i , Activity context){
+		RadioButton button = new RadioButton(context);
+		ViewLookup.mapField(this.config.getCid()+"_1_1_"+Integer.toString(i), radioGroup);
+		button.setText(options.get(i));
+		radioGroup.addView(button);
+		if (i == positionSelected)
+			radioGroup.check(button.getId());
+		if(i==options.size()){
 			button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,
@@ -84,11 +89,10 @@ class Radio implements IField {
 				}
 			});
 		}
-	}
 
+	}
 	public boolean validate() {
-		boolean data = true;
-		return data;
+		return true;
 	}
 
 	public ViewGroup getView() {
@@ -100,19 +104,40 @@ class Radio implements IField {
 		this.cid=config.getCid();
 		RadioButton selectedButton=(RadioButton)radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
 		optionSelected=selectedButton.getText().toString();
-
 		if(otherRequired)
 			other=otherTextBox.getText().toString();
 		else
 			other="";
+		
+		for(int i=0 ; i < options.size() ; i++ ){
+			if(options.get(i).equals(optionSelected)){
+				positionSelected=i;break;
+				}
+		}
 	}
 
+
+	public void errorMessage(String message){
+		if(headingText==null)return;
+
+		headingText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		headingText.setText(headingText.getText() + " " + message);
+		headingText.setTextColor(-65536);
+	}
+
+	public void noErrorMessage(){
+		if(headingText==null)return;
+
+		headingText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		headingText.setTextColor(-1);
+	}
 	@Override
 	public void clearViews() {
+		setValues();
+
 		subForm=null;
 		headingText=null;
 		radioGroup=null;
 		otherTextBox=null;
 	}
-
 };	

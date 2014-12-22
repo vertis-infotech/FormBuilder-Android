@@ -38,6 +38,7 @@ public class FullName implements IField {
 	String cid;
 	@Expose
 	String prefix="";
+	int prefixPosition=0;
 	@Expose
 	String firstName="";
 	@Expose
@@ -55,58 +56,66 @@ public class FullName implements IField {
 	//if focus gained, noErrorMessage is called
 	public void createForm(Activity context) {
 		subForm = new LinearLayout(context);
-		ViewLookup.mapField(this.config.getCid()+"_1", subForm);
 		subForm.setOrientation(LinearLayout.VERTICAL);
 		headingText = new TextView(context);
-		headingText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		subForm.addView(headingText);
 		nameField = new LinearLayout(context);
 		prefixBox = new Spinner(context);
-		ViewLookup.mapField(this.config.getCid()+"_1__1",prefixBox);
-		String[] ss = { "Mr", "Mrs" };
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item, ss);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		prefixBox.setAdapter(adapter);
-		if(prefix.equals("Mrs")){
-			prefixBox.setSelection(1);
-		}
 		nameField.addView(prefixBox);
 		firstNameTextBox = new EditText(context);
-		ViewLookup.mapField(this.config.getCid()+"_1_2", firstNameTextBox);
-		firstNameTextBox.setHint(firstNameHint);
-		firstNameTextBox.setText(firstName);
-		firstNameTextBox.setOnFocusChangeListener( new OnFocusChangeListener() {
-
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if(hasFocus)
-					noErrorMessage();
-				else
-					setValues();
-
-			}
-		});
 		nameField.addView(firstNameTextBox);
 		lastNameTextBox = new EditText(context);
-		ViewLookup.mapField(this.config.getCid()+"_1_3", lastNameTextBox);
-		lastNameTextBox.setOnFocusChangeListener( new OnFocusChangeListener() {
+		nameField.addView(lastNameTextBox);
+		subForm.addView(nameField);
 
+		defineViewSettings(context);
+		setViewValues();
+		mapView();
+		
+		setValues();
+		noErrorMessage();
+	}
+
+	void defineViewSettings(Activity context){
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.prefixArray, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		prefixBox.setAdapter(adapter);
+		firstNameTextBox.setHint(firstNameHint);
+		firstNameTextBox.setOnFocusChangeListener( new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus)
 					noErrorMessage();
 				else
 					setValues();
-
 			}
 		});
-		nameField.addView(lastNameTextBox);
+		lastNameTextBox.setOnFocusChangeListener( new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus)
+					noErrorMessage();
+				else
+					setValues();
+			}
+		});
 		lastNameTextBox.setHint(lastNameHint);
-		lastNameTextBox.setText(lastName);
-		subForm.addView(nameField);
+	}
 
-		setValues();
-		noErrorMessage();
+	void setViewValues(){
+		headingText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		prefixBox.setSelection(prefixPosition);
+		firstNameTextBox.setText(firstName);
+		lastNameTextBox.setText(lastName);
+
+	}
+
+	void mapView(){
+		ViewLookup.mapField(this.config.getCid()+"_1", subForm);
+		ViewLookup.mapField(this.config.getCid()+"_1_1",prefixBox);
+		ViewLookup.mapField(this.config.getCid()+"_1_2", firstNameTextBox);
+		ViewLookup.mapField(this.config.getCid()+"_1_3", lastNameTextBox);
+
 	}
 
 	//return views
@@ -117,7 +126,7 @@ public class FullName implements IField {
 	@Override
 	public void clearViews() {
 		setValues();
-		
+
 		subForm=null;
 		headingText=null;
 		nameField=null;
@@ -133,6 +142,7 @@ public class FullName implements IField {
 		if(subForm!=null){
 			firstName=firstNameTextBox.getText().toString();
 			lastName=lastNameTextBox.getText().toString();
+			prefixPosition=prefixBox.getSelectedItemPosition();
 			prefix=prefixBox.getSelectedItem().toString();
 		}
 		validate();
