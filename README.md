@@ -1,6 +1,6 @@
 FormBuilder-Android
 ===================
-This repository contains the Android SDK that allows you to render forms produced by [Vertis]'(http://www.vertisinfotech.com) fork of [formbuilder](https://github.com/dobtco/formbuilder) within an Android App. The fork of the formbuilder (the coffeescript code) itself will be open-sourced soon and a link will be published here.
+This repository contains the Android SDK that allows you to render forms produced by [Vertis](http://www.vertisinfotech.com)' fork of [formbuilder](https://github.com/dobtco/formbuilder) within an Android App. The fork of the formbuilder (the coffeescript code) itself will be open-sourced soon and a link will be published here.
 
 This repository has two components:
 ## formbuilder-android
