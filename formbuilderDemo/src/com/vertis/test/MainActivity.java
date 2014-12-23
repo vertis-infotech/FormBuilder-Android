@@ -25,8 +25,8 @@ public class MainActivity extends Activity {
 				",{\"label\":\"Pura Naam\", \"field_type\":\"fullname\", \"required\":false, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c27\"}" +
 				",{\"label\":\"Naam batao\", \"field_type\":\"fullname\", \"required\":false, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c21\"}" +
 				",{\"label\":\"Untitled\", \"field_type\":\"section_break\", \"required\":false, \"field_options\":{}, \"conditions\":[], \"cid\":\"c28\",\"section_id\":100}" +
-				",{\"label\":\"Naam batao na!\", \"field_type\":\"fullname\", \"required\":false, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c29\",\"section_id\":100}" +
-				",{\"label\":\"Arre! Ajeeb pagal hai.\", \"field_type\":\"fullname\", \"required\":true, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c30\",\"section_id\":100}" +
+				",{\"label\":\"Naam batao na!\", \"field_type\":\"fullnamexml\", \"required\":false, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c29\",\"section_id\":100}" +
+				",{\"label\":\"Arre! Ajeeb pagal hai.\", \"field_type\":\"fullnamexml\", \"required\":true, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c30\",\"section_id\":100}" +
 				"]}";
 /**
  * Set up formbuiler by giving json, linearlayout where form is to be displayed

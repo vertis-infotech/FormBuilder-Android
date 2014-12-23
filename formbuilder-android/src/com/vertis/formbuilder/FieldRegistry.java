@@ -9,6 +9,7 @@ public class FieldRegistry {
 	
 	static{
 		fields.put("fullname", FullName.class);
+		fields.put("fullnamexml", FullNameXml.class);
 		fields.put("radio", Radio.class);
 		fields.put("section_break", Section.class);
 		}
