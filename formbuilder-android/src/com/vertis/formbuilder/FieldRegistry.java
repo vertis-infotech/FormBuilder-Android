@@ -12,6 +12,8 @@ public class FieldRegistry {
 		fields.put("fullnamexml", FullNameXml.class);
 		fields.put("radio", Radio.class);
 		fields.put("section_break", Section.class);
+		fields.put("email",Email.class);
+		fields.put("address",Address.class);
 		}
 	
 	@SuppressWarnings("rawtypes")

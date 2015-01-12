@@ -23,8 +23,6 @@ public class FullNameXml implements IField {
 	// Default Values
 	String firstNameHint = "first name";
 	String lastNameHint = "last name";
-	@SuppressWarnings("unused")
-	private boolean includeOtherOption;
 
 
 	// Views
@@ -103,16 +101,14 @@ public class FullNameXml implements IField {
 		prefixBox.setSelection(prefixPosition);
 		firstNameTextBox.setText(firstName);
 		lastNameTextBox.setText(lastName);
-
-	}
+    }
 
 	void mapView(){
 		ViewLookup.mapField(this.config.getCid()+"_1", subForm);
 		ViewLookup.mapField(this.config.getCid()+"_1_1",prefixBox);
 		ViewLookup.mapField(this.config.getCid()+"_1_2", firstNameTextBox);
 		ViewLookup.mapField(this.config.getCid()+"_1_3", lastNameTextBox);
-
-	}
+}
 
 	//return views
 	public ViewGroup getView() {
