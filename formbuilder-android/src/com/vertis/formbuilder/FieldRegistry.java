@@ -8,12 +8,13 @@ public class FieldRegistry {
 	static HashMap<String,Class> fields=new HashMap<String,Class>();
 	
 	static{
-		fields.put("fullname", FullName.class);
 		fields.put("fullnamexml", FullNameXml.class);
 		fields.put("radio", Radio.class);
 		fields.put("section_break", Section.class);
 		fields.put("email",Email.class);
 		fields.put("address",Address.class);
+		fields.put("checkbox",Checkbox.class);
+		fields.put("dropdown", Dropdown.class);
 		}
 	
 	@SuppressWarnings("rawtypes")

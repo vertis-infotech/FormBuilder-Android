@@ -1,11 +1,20 @@
 package com.vertis.formbuilder;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
+import android.graphics.Typeface;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +47,7 @@ public class Address implements IField {
 	TextView zipTextView;
 	Spinner countriesSpinner;
 	TextView countryTextView;
+	TextView title;
 
 	//Values
 	@Expose
@@ -75,7 +85,28 @@ public class Address implements IField {
 		zipEditText = (EditText) ad.findViewById(R.id.editTextZip);
 		countriesSpinner =(Spinner) ad.findViewById(R.id.Country);
 		countryTextView= (TextView) ad.findViewById(R.id.textViewCountry);
-
+		title= (TextView) ad.findViewById(R.id.textViewAddress);
+		title.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		title.setTypeface(getFontFromRes(R.raw.roboto, context));
+		streetTextView.setTypeface(getFontFromRes(R.raw.roboto, context));
+		streetEditText.setTypeface(getFontFromRes(R.raw.roboto, context));
+		cityTextView.setTypeface(getFontFromRes(R.raw.roboto, context));
+		cityEditText.setTypeface(getFontFromRes(R.raw.roboto, context));
+		stateTextView.setTypeface(getFontFromRes(R.raw.roboto, context));
+		stateEditText.setTypeface(getFontFromRes(R.raw.roboto, context));
+		zipTextView.setTypeface(getFontFromRes(R.raw.roboto, context));
+		zipEditText.setTypeface(getFontFromRes(R.raw.roboto, context));
+		countryTextView.setTypeface(getFontFromRes(R.raw.roboto, context));
+		title.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+		streetTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+		cityTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+		stateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+		zipTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+		countryTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+		streetEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		cityEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		stateEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		zipEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
@@ -86,27 +117,47 @@ public class Address implements IField {
 		noErrorMessageZip();
 		noErrorMessageCountry();
 	}
+	
+	private Typeface getFontFromRes(int resource, Context context)
+	{ 
+		Typeface tf = null;
+		InputStream is = null;
+		try {
+			is = context.getResources().openRawResource(resource);
+		}
+		catch(NotFoundException e) {
+		}
+		String outPath = context.getCacheDir() + "/tmp" + System.currentTimeMillis()+".raw";
+		try
+		{
+			byte[] buffer = new byte[is.available()];
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outPath));
+			int l = 0;
+			while((l = is.read(buffer)) > 0)
+				bos.write(buffer, 0, l);
+			bos.close();
+			tf = Typeface.createFromFile(outPath);
+			new File(outPath).delete();
+		}
+		catch (IOException e)
+		{
+			return null;
+		}
+		return tf;      
+	}
+	
 	private void mapView() {
 		ViewLookup.mapField(this.config.getCid()+"_1", ad);
 		ViewLookup.mapField(this.config.getCid()+"_1_1",streetEditText);
-		ViewLookup.mapField(this.config.getCid()+"_1_2",streetTextView);
-		ViewLookup.mapField(this.config.getCid()+"_1_3",cityEditText);
-		ViewLookup.mapField(this.config.getCid()+"_1_4",cityTextView);
-		ViewLookup.mapField(this.config.getCid()+"_1_5",stateEditText);
-		ViewLookup.mapField(this.config.getCid()+"_1_6",stateTextView);
-		ViewLookup.mapField(this.config.getCid()+"_1_7",zipEditText);
-		ViewLookup.mapField(this.config.getCid()+"_1_8",zipTextView);
-		ViewLookup.mapField(this.config.getCid()+"_1_9",countryTextView);
-		ViewLookup.mapField(this.config.getCid()+"_1_10",countriesSpinner);
+		ViewLookup.mapField(this.config.getCid()+"_1_2",cityEditText);
+		ViewLookup.mapField(this.config.getCid()+"_1_3",stateEditText);
+		ViewLookup.mapField(this.config.getCid()+"_1_4",zipEditText);
+		ViewLookup.mapField(this.config.getCid()+"_1_5",countriesSpinner);
 	}
 	private void setViewValues() {
-		//		streetTextView.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		streetEditText.setText(street);
-		//		cityTextView.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		cityEditText.setText(city);
-		//		stateTextView.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		stateEditText.setText(state);
-		//		zipTextView.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		zipEditText.setText(zip);
 		countriesSpinner.setSelection(countryPosition);
 	}
@@ -143,7 +194,7 @@ public class Address implements IField {
 				else
 					setValues();
 			}
-		});
+		});		
 		cityEditText.setOnFocusChangeListener( new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -183,51 +234,49 @@ public class Address implements IField {
 	public ViewGroup getView() {
 		return ad;
 	}
+	
 	@Override
 	public boolean validate() {
-		boolean valid;
-		String street = streetEditText.getText().toString();
-		String city = cityEditText.getText().toString();
-		String state = stateEditText.getText().toString();
-		String zip = zipEditText.getText().toString();
-		String country = countriesSpinner.getSelectedItem().toString();
-
-		if(config.getRequired()&&street.equals("")){
-			valid=false;
-			errorMessageStreet(" Street Required");
-		}  else{
-			valid=true;
-			noErrorMessageStreet();
-		} 
-		if(config.getRequired()&&city.equals("")) {
-			valid=false;
-			errorMessageCity(" City Required");
-		}  else{
-			valid=true;
-			noErrorMessageCity();
+		boolean valid = false;
+		try {
+			if(config.getRequired()&&street.equals("")){
+				valid=false;
+				errorMessageStreet(" Street Required");
+			}  else{
+				valid=true;
+				noErrorMessageStreet();
+			} 
+			if(config.getRequired()&&city.equals("")) {
+				valid=false;
+				errorMessageCity(" City Required");
+			}  else{
+				valid=true;
+				noErrorMessageCity();
+			}
+			if(config.getRequired()&&state.equals("")) {
+				valid=false;
+				errorMessageState(" State Required");
+			}  else{
+				valid=true;
+				noErrorMessageState();
+			}
+			if(config.getRequired()&&zip.equals("")) {
+				valid=false;
+				errorMessageZip(" Zip Required");
+			}  else{
+				valid=true;
+				noErrorMessageZip();
+			}
+			if(config.getRequired()&&country.equals("")) {
+				valid=false;
+				errorMessageCountry(" Country Required");
+			} else{
+				valid=true;
+				noErrorMessageCountry();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(config.getRequired()&&state.equals("")) {
-			valid=false;
-			errorMessageState(" State Required");
-		}  else{
-			valid=true;
-			noErrorMessageState();
-		}
-		if(config.getRequired()&&zip.equals("")) {
-			valid=false;
-			errorMessageZip(" Zip Required");
-		}  else{
-			valid=true;
-			noErrorMessageZip();
-		}
-		if(config.getRequired()&&country.equals("")) {
-			valid=false;
-			errorMessageCountry(" Country Required");
-		} else{
-			valid=true;
-			noErrorMessageCountry();
-		}
-		
 		return valid;
 	}
 
@@ -266,34 +315,39 @@ public class Address implements IField {
 		countryTextView.setTextColor(-65536);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageStreet() {
 		if(streetTextView==null)return;
 		streetTextView.setText(this.config.getRequired()?"Street*":"" );
-		streetTextView.setTextColor(-1);
+		streetTextView.setTextColor(R.color.Black);
 	}
 	
+	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageCity() {
 		if(cityTextView==null)return;
 		cityTextView.setText(this.config.getRequired()?"City*":"" );
-		cityTextView.setTextColor(-1);
+		cityTextView.setTextColor(R.color.Black);
 	}
 	
+	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageState() {
 		if(stateTextView==null)return;
 		stateTextView.setText(this.config.getRequired()?"State*":"" );
-		stateTextView.setTextColor(-1);
+		stateTextView.setTextColor(R.color.Black);
 	}
 	
+	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageZip() {
 		if(zipTextView==null)return;
 		zipTextView.setText(this.config.getRequired()?"Zip*":"" );
-		zipTextView.setTextColor(-1);
+		zipTextView.setTextColor(R.color.Black);
 	}
 	
+	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageCountry() {
 		if(countryTextView==null)return;
 		countryTextView.setText(this.config.getRequired()?"Country*":"" );
-		countryTextView.setTextColor(-1);
+		countryTextView.setTextColor(R.color.Black);
 	}
 	@Override
 	public void setValues() {
@@ -325,8 +379,5 @@ public class Address implements IField {
 		zipTextView=null;
 		countriesSpinner=null;
 		countryTextView=null;
-
 	}
-	
-	
 }

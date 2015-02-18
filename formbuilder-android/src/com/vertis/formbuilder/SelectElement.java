@@ -1,6 +1,5 @@
 package com.vertis.formbuilder;
 
-
 public class SelectElement implements Comparable<SelectElement> {
 	@Override
 	public String toString() {

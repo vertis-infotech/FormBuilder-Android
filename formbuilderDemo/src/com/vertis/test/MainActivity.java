@@ -21,15 +21,14 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		form=(LinearLayout)findViewById(R.id.Lay1);
 		String jsonstr = "{\"fields\":[" +
-				"{\"label\":\"Full Name\", \"field_type\":\"fullname\", \"required\":true, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c26\"}" +
-				",{\"label\":\"Pura Naam\", \"field_type\":\"fullname\", \"required\":false, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c27\"}" +
-				",{\"label\":\"Naam batao\", \"field_type\":\"fullname\", \"required\":false, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c21\"}" +
+				"{\"label\":\"Full Name\", \"field_type\":\"fullnamexml\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c26\"}" +
 				",{\"label\":\"Untitled\", \"field_type\":\"section_break\", \"required\":false, \"field_options\":{}, \"conditions\":[], \"cid\":\"c28\",\"section_id\":100}" +
-				",{\"label\":\"Naam batao na!\", \"field_type\":\"fullnamexml\", \"required\":false, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c29\",\"section_id\":100}" +
-				",{\"label\":\"Arre! Ajeeb pagal hai.\", \"field_type\":\"fullnamexml\", \"required\":true, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c30\",\"section_id\":100}" +
-				",{\"label\":\"Email\", \"field_type\":\"email\", \"required\":true, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c30\"}" +
-				",{\"label\":\"My Address\", \"field_type\":\"address\", \"required\":true, \"field_options\":{\"include_other_option\":true}, \"conditions\":[], \"cid\":\"c40\"}" +	
-				"]}";
+				",{\"label\":\"Email\", \"field_type\":\"email\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c30\"}" +
+				",{\"label\":\"My Address\", \"field_type\":\"address\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c40\"}" +
+				",{\"label\":\"Radio\", \"field_type\":\"radio\", \"required\":true, \"field_options\":{\"options\":[{\"label\":\"y\",\"checked\":false},{\"label\":\"n\",\"checked\":false}]},\"conditions\":[],\"cid\":\"c47\"}" +
+				",{\"label\":\"Checkbox\", \"field_type\":\"checkbox\", \"required\":true, \"field_options\":{\"options\":[{\"label\":\"1\",\"checked\":false},{\"label\":\"2\",\"checked\":false}]},\"conditions\":[],\"cid\":\"c49\"}" +
+				",{\"label\":\"Dropdown\", \"field_type\":\"dropdown\", \"required\":true, \"field_options\":{\"options\":[{\"label\":\"A\",\"checked\":false}, {\"label\":\"B\", \"checked\":false}], \"include_blank_option\":true,\"size\":\"small\",\"empty_option_text\":\"\"}, \"conditions\":[{\"source\"=>\"c1\", \"condition\":\"equals\", \"value\":\"A\", \"action\":\"show\", \"target\":\"c2\", \"isSource\":false}], \"cid\":\"c1\"}" +
+				"]}";		
 /**
  * Set up formbuiler by giving json, linearlayout where form is to be displayed
  * and context
@@ -39,16 +38,12 @@ public class MainActivity extends Activity {
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
