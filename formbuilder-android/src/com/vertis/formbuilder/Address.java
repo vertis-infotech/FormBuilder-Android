@@ -280,74 +280,79 @@ public class Address implements IField {
 		return valid;
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void errorMessageStreet(String message) {
 		if(streetTextView==null)return;
 		streetTextView.setText((this.config.getRequired()?"*":"") );
 		streetTextView.setText(streetTextView.getText() + message);
-		streetTextView.setTextColor(-65536);
+		streetTextView.setTextColor(R.color.ErrorMessage);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void errorMessageCity(String message) {
 		if(cityTextView==null)return;
 		cityTextView.setText((this.config.getRequired()?"*":"") );
 		cityTextView.setText(cityTextView.getText() + message);
-		cityTextView.setTextColor(-65536);
+		cityTextView.setTextColor(R.color.ErrorMessage);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void errorMessageState(String message) {
 		if(stateTextView==null)return;
 		stateTextView.setText((this.config.getRequired()?"*":"") );
 		stateTextView.setText(stateTextView.getText() + message);
-		stateTextView.setTextColor(-65536);
+		stateTextView.setTextColor(R.color.ErrorMessage);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void errorMessageZip(String message) {
 		if(countryTextView==null)return;
 		zipTextView.setText((this.config.getRequired()?"*":"") );
 		zipTextView.setText(zipTextView.getText() + message);
-		zipTextView.setTextColor(-65536);
+		zipTextView.setTextColor(R.color.ErrorMessage);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void errorMessageCountry(String message) {
 		if(countryTextView==null)return;
 		countryTextView.setText((this.config.getRequired()?"*":"") );
 		countryTextView.setText(countryTextView.getText() + message);
-		countryTextView.setTextColor(-65536);
+		countryTextView.setTextColor(R.color.ErrorMessage);
 	}
 
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageStreet() {
 		if(streetTextView==null)return;
 		streetTextView.setText(this.config.getRequired()?"Street*":"" );
-		streetTextView.setTextColor(R.color.Black);
+		streetTextView.setTextColor(R.color.TextViewNormal);
 	}
 	
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageCity() {
 		if(cityTextView==null)return;
 		cityTextView.setText(this.config.getRequired()?"City*":"" );
-		cityTextView.setTextColor(R.color.Black);
+		cityTextView.setTextColor(R.color.TextViewNormal);
 	}
 	
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageState() {
 		if(stateTextView==null)return;
 		stateTextView.setText(this.config.getRequired()?"State*":"" );
-		stateTextView.setTextColor(R.color.Black);
+		stateTextView.setTextColor(R.color.TextViewNormal);
 	}
 	
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageZip() {
 		if(zipTextView==null)return;
 		zipTextView.setText(this.config.getRequired()?"Zip*":"" );
-		zipTextView.setTextColor(R.color.Black);
+		zipTextView.setTextColor(R.color.TextViewNormal);
 	}
 	
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageCountry() {
 		if(countryTextView==null)return;
 		countryTextView.setText(this.config.getRequired()?"Country*":"" );
-		countryTextView.setTextColor(R.color.Black);
+		countryTextView.setTextColor(R.color.TextViewNormal);
 	}
 	@Override
 	public void setValues() {

@@ -28,6 +28,9 @@ public class MainActivity extends Activity {
 				",{\"label\":\"Radio\", \"field_type\":\"radio\", \"required\":true, \"field_options\":{\"options\":[{\"label\":\"y\",\"checked\":false},{\"label\":\"n\",\"checked\":false}]},\"conditions\":[],\"cid\":\"c47\"}" +
 				",{\"label\":\"Checkbox\", \"field_type\":\"checkbox\", \"required\":true, \"field_options\":{\"options\":[{\"label\":\"1\",\"checked\":false},{\"label\":\"2\",\"checked\":false}]},\"conditions\":[],\"cid\":\"c49\"}" +
 				",{\"label\":\"Dropdown\", \"field_type\":\"dropdown\", \"required\":true, \"field_options\":{\"options\":[{\"label\":\"A\",\"checked\":false}, {\"label\":\"B\", \"checked\":false}], \"include_blank_option\":true,\"size\":\"small\",\"empty_option_text\":\"\"}, \"conditions\":[{\"source\"=>\"c1\", \"condition\":\"equals\", \"value\":\"A\", \"action\":\"show\", \"target\":\"c2\", \"isSource\":false}], \"cid\":\"c1\"}" +
+				",{\"label\":\"Contact No.\", \"field_type\":\"contact\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c31\"}" +
+				",{\"label\":\"Text\", \"field_type\":\"text\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c32\"}" +
+				",{\"label\":\"MultiLine Text\", \"field_type\":\"mtext\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c32\"}" +
 				"]}";		
 /**
  * Set up formbuiler by giving json, linearlayout where form is to be displayed

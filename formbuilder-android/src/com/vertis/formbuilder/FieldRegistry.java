@@ -15,6 +15,9 @@ public class FieldRegistry {
 		fields.put("address",Address.class);
 		fields.put("checkbox",Checkbox.class);
 		fields.put("dropdown", Dropdown.class);
+		fields.put("contact", Contact.class);
+		fields.put("text", SimpleEditText.class);
+		fields.put("mtext", MultiLineEditText.class);
 		}
 	
 	@SuppressWarnings("rawtypes")

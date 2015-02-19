@@ -52,7 +52,7 @@ public class Dropdown implements IField{
 	private void noErrorMessage() {
 		if(tvDropdown==null)return;
 		tvDropdown.setText(this.config.getRequired()?"Dropdown":"" );
-		tvDropdown.setTextColor(R.color.Black);
+		tvDropdown.setTextColor(android.R.color.black);
 	}
 
 	private void mapView() {

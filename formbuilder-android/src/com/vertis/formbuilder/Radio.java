@@ -3,6 +3,7 @@ package com.vertis.formbuilder;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -105,17 +106,19 @@ class Radio implements IField {
 		validate();
 	}
 
+	@SuppressLint("ResourceAsColor")
 	public void errorMessage(String message){
 		if(headingText==null)return;
 		headingText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		headingText.setText(headingText.getText() + " " + message);
-		headingText.setTextColor(-65536);
+		headingText.setTextColor(R.color.ErrorMessage);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	public void noErrorMessage(){
 		if(headingText==null)return;
 		headingText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		headingText.setTextColor(Color.BLACK);
+		headingText.setTextColor(R.color.TextViewNormal);
 	}
 	@Override
 	public void clearViews() {

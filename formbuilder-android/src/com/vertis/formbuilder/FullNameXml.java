@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
@@ -207,9 +208,10 @@ public class FullNameXml implements IField {
 		headingText.setTextColor(-65536);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	public void noErrorMessage(){
 		if(headingText==null)return;
 		headingText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		headingText.setTextColor(Color.BLACK);
+		headingText.setTextColor(R.color.TextViewNormal);
 	}
 };

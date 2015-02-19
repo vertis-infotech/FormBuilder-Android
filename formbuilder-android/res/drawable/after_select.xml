@@ -12,7 +12,7 @@
 
         <stroke 
             android:width="2dp" 
-            android:color="@color/Black" />
+            android:color="@color/EditTextAfterBorder" />
 
         <solid android:color="@android:color/white" />
 

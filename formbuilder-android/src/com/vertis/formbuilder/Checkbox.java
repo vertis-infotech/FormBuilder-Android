@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -99,17 +100,19 @@ public class Checkbox implements IField {
 		return valid;
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void noErrorMessage() {
 		if(tvCheckBox==null)return;
 		tvCheckBox.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		tvCheckBox.setTextColor(Color.BLACK);		
+		tvCheckBox.setTextColor(R.color.TextViewNormal);		
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void errorMessage(String message) {
 		if(tvCheckBox==null)return;
 		tvCheckBox.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		tvCheckBox.setText(tvCheckBox.getText() + " " + message);
-		tvCheckBox.setTextColor(-65536);
+		tvCheckBox.setTextColor(R.color.ErrorMessage);
 	}
 
 	@Override

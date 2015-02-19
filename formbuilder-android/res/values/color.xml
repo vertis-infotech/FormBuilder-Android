@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="Black">#000000</color>
+    <color name="EditTextAfterBorder">#000000</color>
+    <color name="TextViewNormal">#000000</color>
+    <color name="ErrorMessage">#ff0000</color>
     <color name="Red">#ff0000</color>
+    <color name="Black">#000000</color>
+    <color name="ButtonColor">#eeeeee</color>
     <color name="Black1">#888888</color>
     <color name="White1">#eeeeee</color>
-    <color name="BlackBorder">#939393</color>
+    <color name="EditTextBeforeBorder">#939393</color>
     <color name="White">#ffffff</color>
 
 </resources>

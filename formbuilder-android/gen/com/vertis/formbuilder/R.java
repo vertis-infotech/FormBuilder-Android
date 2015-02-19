@@ -15,13 +15,17 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static int Black=0x7f060000;
-        public static int Black1=0x7f060002;
-        public static int BlackBorder=0x7f060004;
-        public static int Red=0x7f060001;
-        public static int White=0x7f060005;
-        public static int White1=0x7f060003;
-        public static int apptheme_color=0x7f060006;
+        public static int Black=0x7f060004;
+        public static int Black1=0x7f060006;
+        public static int ButtonColor=0x7f060005;
+        public static int EditTextAfterBorder=0x7f060000;
+        public static int EditTextBeforeBorder=0x7f060008;
+        public static int ErrorMessage=0x7f060002;
+        public static int Red=0x7f060003;
+        public static int TextViewNormal=0x7f060001;
+        public static int White=0x7f060009;
+        public static int White1=0x7f060007;
+        public static int apptheme_color=0x7f06000a;
     }
     public static final class drawable {
         public static int after_select=0x7f020000;
@@ -31,37 +35,50 @@ public final class R {
         public static int apptheme_btn_radio_off_focused_holo_light=0x7f020004;
         public static int apptheme_btn_radio_on_focused_holo_light=0x7f020005;
         public static int before_select=0x7f020006;
-        public static int check_custom=0x7f020007;
-        public static int edit_text_selector=0x7f020008;
-        public static int ic_launcher=0x7f020009;
-        public static int radio_custom=0x7f02000a;
-        public static int spinner_pressed_false=0x7f02000b;
-        public static int spinner_pressed_true=0x7f02000c;
-        public static int spinner_selector=0x7f02000d;
+        public static int button_pressed=0x7f020007;
+        public static int button_select=0x7f020008;
+        public static int button_unpressed=0x7f020009;
+        public static int check_custom=0x7f02000a;
+        public static int edit_text_selector=0x7f02000b;
+        public static int ic_launcher=0x7f02000c;
+        public static int prev_next_buttons=0x7f02000d;
+        public static int radio_custom=0x7f02000e;
+        public static int spinner_pressed_false=0x7f02000f;
+        public static int spinner_pressed_true=0x7f020010;
+        public static int spinner_selector=0x7f020011;
     }
     public static final class id {
         public static int Country=0x7f09000e;
-        public static int editText1=0x7f090017;
-        public static int editText2=0x7f090018;
+        public static int cents=0x7f09001f;
+        public static int dollars=0x7f09001e;
+        public static int editText1=0x7f090019;
+        public static int editText2=0x7f09001a;
         public static int editTextCity=0x7f090005;
-        public static int editTextEmail=0x7f090014;
+        public static int editTextContact=0x7f090012;
+        public static int editTextEmail=0x7f090016;
         public static int editTextState=0x7f090008;
         public static int editTextStreet=0x7f090002;
         public static int editTextZip=0x7f09000b;
-        public static int radio_buttons_layout=0x7f09001a;
-        public static int spinner1=0x7f090016;
-        public static int spinnerDropdown=0x7f090012;
-        public static int textView1=0x7f090015;
+        public static int multilineEditText=0x7f09001c;
+        public static int multilineTextView=0x7f09001b;
+        public static int radio_buttons_layout=0x7f090021;
+        public static int simpleEditText=0x7f090023;
+        public static int simpleTextView=0x7f090022;
+        public static int spinner1=0x7f090018;
+        public static int spinnerDropdown=0x7f090014;
+        public static int textView1=0x7f090017;
         public static int textViewAddress=0x7f090000;
         public static int textViewCity=0x7f090006;
+        public static int textViewContact=0x7f090011;
         public static int textViewCountry=0x7f09000f;
-        public static int textViewDropdown=0x7f090011;
-        public static int textViewEmail=0x7f090013;
+        public static int textViewDropdown=0x7f090013;
+        public static int textViewEmail=0x7f090015;
+        public static int textViewPrice=0x7f09001d;
         public static int textViewState=0x7f090009;
         public static int textViewStreet=0x7f090003;
         public static int textViewZip=0x7f09000c;
         public static int tvCheckbox=0x7f090010;
-        public static int tvRadio=0x7f090019;
+        public static int tvRadio=0x7f090020;
         public static int vertical_ll_1=0x7f090001;
         public static int vertical_ll_2=0x7f090004;
         public static int vertical_ll_3=0x7f090007;
@@ -71,11 +88,15 @@ public final class R {
     public static final class layout {
         public static int address=0x7f030000;
         public static int checkbox=0x7f030001;
-        public static int drop_down_xml=0x7f030002;
-        public static int email=0x7f030003;
-        public static int fullname=0x7f030004;
-        public static int radio=0x7f030005;
-        public static int spinner_textview=0x7f030006;
+        public static int contact=0x7f030002;
+        public static int drop_down_xml=0x7f030003;
+        public static int email=0x7f030004;
+        public static int fullname=0x7f030005;
+        public static int multiline_edit_text=0x7f030006;
+        public static int price=0x7f030007;
+        public static int radio=0x7f030008;
+        public static int simple_edit_text=0x7f030009;
+        public static int spinner_textview=0x7f03000a;
     }
     public static final class raw {
         public static int roboto=0x7f040000;

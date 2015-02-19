@@ -26,22 +26,22 @@ import android.widget.TextView;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
 
-public class Email implements IField{
+public class Contact implements IField{
 
 	private FieldConfig config;
-	private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+	private static final String contactPattern = "^[0-9]+$";
 	//Views
-	LinearLayout em;
-	TextView emailTextBox;
-	EditText emailEditBox;
+	LinearLayout llContact;
+	TextView tvContact;
+	EditText etContact;
 
 	//Values
 	@Expose
 	String cid;
 	@Expose
-	String emailid="";
+	String contactNo="";
 
-	public Email(FieldConfig fcg){
+	public Contact(FieldConfig fcg){
 		this.config=fcg;
 	}	
 
@@ -49,14 +49,14 @@ public class Email implements IField{
 	@Override
 	public void createForm(Activity context) {
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
-		em=(LinearLayout) inflater.inflate(R.layout.email,null);
-		emailTextBox = (TextView) em.findViewById(R.id.textViewEmail);
-		emailEditBox = (EditText) em.findViewById(R.id.editTextEmail);
-		emailEditBox.setTypeface(getFontFromRes(R.raw.roboto, context));
-		emailTextBox.setTypeface(getFontFromRes(R.raw.roboto, context));
-		emailEditBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
-		emailTextBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-		emailTextBox.setTextColor(R.color.TextViewNormal);
+		llContact=(LinearLayout) inflater.inflate(R.layout.contact,null);
+		tvContact = (TextView) llContact.findViewById(R.id.textViewContact);
+		etContact = (EditText) llContact.findViewById(R.id.editTextContact);
+		etContact.setTypeface(getFontFromRes(R.raw.roboto, context));
+		tvContact.setTypeface(getFontFromRes(R.raw.roboto, context));
+		etContact.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		tvContact.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		tvContact.setTextColor(R.color.TextViewNormal);
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
@@ -94,24 +94,24 @@ public class Email implements IField{
 
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessage() {
-		if(emailTextBox==null)return;
-		emailTextBox.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		emailTextBox.setTextColor(R.color.TextViewNormal);
+		if(tvContact==null)return;
+		tvContact.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		tvContact.setTextColor(R.color.TextViewNormal);
 	}
 
 	private void mapView() {
-		ViewLookup.mapField(this.config.getCid()+"_1", em);
-		ViewLookup.mapField(this.config.getCid()+"_1_1", emailEditBox);
+		ViewLookup.mapField(this.config.getCid()+"_1", llContact);
+		ViewLookup.mapField(this.config.getCid()+"_1_1", etContact);
 	}
 
 	private void setViewValues() {
-		emailTextBox.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		emailEditBox.setText(emailid);
-		emailTextBox.setTextColor(-1);
+		tvContact.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		etContact.setText(contactNo);
+		tvContact.setTextColor(-1);
 	}
 
 	private void defineViewSettings(Activity context) {
-		emailEditBox.setOnFocusChangeListener( new OnFocusChangeListener() {
+		etContact.setOnFocusChangeListener( new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus)
@@ -124,17 +124,17 @@ public class Email implements IField{
 
 	@Override
 	public ViewGroup getView() {
-		return em;
+		return llContact;
 	}
 
 	@Override
 	public boolean validate() {
 		boolean valid;
-		String emailString = emailid;
-		if(config.getRequired() && emailString.equals("")){
+		String contactString = contactNo;
+		if(config.getRequired() && contactString.equals("")){
 			valid=false;
 			errorMessage(" Required");
-		} else if(emailValidation(emailString)){
+		} else if(contactValidation(contactString)){
 			valid=false;
 			errorMessage(" Invalid entry");
 		} else{
@@ -144,25 +144,25 @@ public class Email implements IField{
 		return valid;
 	}
 
-	private boolean emailValidation(String emailCheck) { 
-		Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-		Matcher matcher = pattern.matcher(emailCheck);
+	private boolean contactValidation(String contactCheck) { 
+		Pattern pattern = Pattern.compile(contactPattern);
+		Matcher matcher = pattern.matcher(contactCheck);
 		return !matcher.matches();
 	}
 
 	@SuppressLint("ResourceAsColor")
 	private void errorMessage(String message) {
-		if(emailTextBox==null)return;
-		emailTextBox.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		emailTextBox.setText(emailTextBox.getText() + message);
-		emailTextBox.setTextColor(R.color.ErrorMessage);
+		if(tvContact==null)return;
+		tvContact.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		tvContact.setText(tvContact.getText() + message);
+		tvContact.setTextColor(R.color.ErrorMessage);
 	}
 
 	@Override
 	public void setValues() {
 		this.cid=config.getCid();
-		if(em!=null){
-			emailid=emailEditBox.getText().toString();
+		if(llContact!=null){
+			contactNo=etContact.getText().toString();
 		}
 		validate();
 	}
@@ -170,8 +170,8 @@ public class Email implements IField{
 	@Override
 	public void clearViews() {
 		setValues();
-		em=null;
-		emailTextBox=null;
-		emailEditBox=null;
+		llContact=null;
+		tvContact=null;
+		etContact=null;
 	}
 }
