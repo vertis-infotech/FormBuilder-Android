@@ -27,7 +27,7 @@ public class FieldConfig {
 		return field_options;
 	}
 	public void setField_options(FieldOptions field_options) {
-		this.field_options = field_options; 
+		this.field_options = field_options;
 	}
 
 	//	public ArrayList<AllOptions> getOptions() {
@@ -37,7 +37,6 @@ public class FieldConfig {
 	//	public void setOptions(ArrayList<AllOptions> options) {
 	//		this.options = options;
 	//	}
-
 
 	public ArrayList<HashMap<String, String>> getConditions() {
 		return conditions;

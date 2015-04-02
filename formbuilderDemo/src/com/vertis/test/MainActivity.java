@@ -31,6 +31,8 @@ public class MainActivity extends Activity {
 				",{\"label\":\"Contact No.\", \"field_type\":\"contact\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c31\"}" +
 				",{\"label\":\"Text\", \"field_type\":\"text\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c32\"}" +
 				",{\"label\":\"MultiLine Text\", \"field_type\":\"mtext\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c32\"}" +
+				",{\"label\":\"Price\", \"field_type\":\"price\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c27\"}" +
+				",{\"label\":\"DOB\",\"field_type\":\"date_time\",\"required\":false,\"field_options\":{\"minage\":\"21\",\"date_format\":\"mm/dd/yy\"},\"conditions\":[],\"cid\":\"c2\"}" +
 				"]}";		
 /**
  * Set up formbuiler by giving json, linearlayout where form is to be displayed
@@ -55,7 +57,6 @@ public class MainActivity extends Activity {
  * @param button
  */
 	public void submit(View button) {
-
 			this.result= formBuilder.submit();
 			Toast.makeText(this, this.result, Toast.LENGTH_LONG).show();			
 	}

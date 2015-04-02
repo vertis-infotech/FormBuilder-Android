@@ -78,7 +78,6 @@ public class FullNameXml implements IField {
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
-
 		setValues();
 		noErrorMessage();
 	}

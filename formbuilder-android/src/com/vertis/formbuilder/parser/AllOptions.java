@@ -1,10 +1,6 @@
 package com.vertis.formbuilder.parser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class AllOptions {
-
 	String label;
 	Boolean checked;
 	

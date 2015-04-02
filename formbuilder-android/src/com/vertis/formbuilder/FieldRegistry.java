@@ -18,6 +18,8 @@ public class FieldRegistry {
 		fields.put("contact", Contact.class);
 		fields.put("text", SimpleEditText.class);
 		fields.put("mtext", MultiLineEditText.class);
+		fields.put("price",Price.class);
+		fields.put("date_time", DisplayDateTime.class);
 		}
 	
 	@SuppressWarnings("rawtypes")
