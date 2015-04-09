@@ -8,7 +8,9 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -45,6 +47,14 @@ class Radio implements IField {
 		ViewLookup.mapField(this.config.getCid()+"_1_1", radioGroup);
 		subForm.addView(radioGroup);
 		radioGroup.clearCheck();
+		subForm.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				subForm.setFocusableInTouchMode(true);
+				subForm.setFocusable(true);
+				subForm.requestFocus();
+			}
+		});
 		int i = 0;
 		for (i = 0; i < this.config.getField_options().getOptions().size(); i++) {
 			addButton(i, context);

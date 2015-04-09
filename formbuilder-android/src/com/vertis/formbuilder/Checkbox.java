@@ -9,7 +9,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -49,6 +51,14 @@ public class Checkbox implements IField {
 		for (i = 0; i < this.config.getField_options().getOptions().size(); i++) {
 			addBox(i, context);
 		}
+		llCheckBox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				llCheckBox.setFocusableInTouchMode(true);
+				llCheckBox.setFocusable(true);
+				llCheckBox.requestFocus();
+			}
+		});
 		mapview();
 		setViewValues();
 	}

@@ -20,6 +20,11 @@ public class FieldRegistry {
 		fields.put("mtext", MultiLineEditText.class);
 		fields.put("price",Price.class);
 		fields.put("date_time", DisplayDateTime.class);
+		fields.put("birth_date", DisplayDateTime.class);
+		fields.put("date", DisplayDateTime.class);
+		fields.put("time", DisplayDateTime.class);
+		fields.put("endDateTimeDifference", DisplayDateTime.class);
+		fields.put("startDateTimeDifference", DisplayDateTime.class);
 		}
 	
 	@SuppressWarnings("rawtypes")

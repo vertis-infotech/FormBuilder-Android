@@ -1,5 +1,10 @@
 package com.vertis.formbuilder;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,6 +14,10 @@ import java.util.TimeZone;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.res.Resources.NotFoundException;
+import android.graphics.Typeface;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +31,7 @@ import android.widget.TextView;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
 
+@SuppressLint("SimpleDateFormat")
 public class DisplayDateTime implements IField {
 
 	//Views
@@ -35,12 +45,17 @@ public class DisplayDateTime implements IField {
 	String cid;
 	@Expose
 	String datetime="";
+	String maxtime="";
+	@Expose
+	String dateTimeToRetainValue="";
 	private Activity context;
+	
 
 	public DisplayDateTime(FieldConfig fcg){
 		this.config=fcg;
 	}
 
+	@SuppressLint("ResourceAsColor")
 	@Override
 	public void createForm(Activity context) {
 		this.context = context;
@@ -48,15 +63,28 @@ public class DisplayDateTime implements IField {
 		llDisplayDateTime=(LinearLayout) inflater.inflate(R.layout.display_date_time,null);
 		showTextDateTime = (TextView) llDisplayDateTime.findViewById(R.id.showTextDateTime);
 		tvDateTime=(TextView) llDisplayDateTime.findViewById(R.id.tvErrorMessage);
-		llDisplayDateTime.setOnClickListener(new OnClickListener() {
-			
+		datetime = config.getField_options().getExistingFieldValue();
+		tvDateTime.setTypeface(getFontFromRes(R.raw.roboto, context));
+		showTextDateTime.setTypeface(getFontFromRes(R.raw.roboto, context));
+		showTextDateTime.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		tvDateTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		tvDateTime.setTextColor(R.color.TextViewNormal);
+		showTextDateTime.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				sample(config.getField_options().getSteps(),
+				showTextDateTime.setFocusableInTouchMode(true);
+				showTextDateTime.setFocusable(true);
+				showTextDateTime.requestFocus();
+				if(config.getField_type().equals("birth_date")){
+					maxtime = new SimpleDateFormat(config.getField_options().getDate_format()).format(Calendar.getInstance().getTime());
+				}else {
+					maxtime = config.getField_options().getMaxDate();
+				}
+				openDialog(config.getField_options().getSteps(),
 						config.getField_options().getDate_format(),
 						config.getField_type(),
-						config.getField_options().getMaxDate(),
-						config.getField_options().getExistingFieldValue());
+						maxtime,
+						datetime);
 			}
 		});
 		defineViewSettings(context);
@@ -66,6 +94,34 @@ public class DisplayDateTime implements IField {
 		noErrorMessage();
 	}
 
+	private Typeface getFontFromRes(int resource, Context context)
+	{ 
+		Typeface tf = null;
+		InputStream is = null;
+		try {
+			is = context.getResources().openRawResource(resource);
+		}
+		catch(NotFoundException e) {
+		}
+		String outPath = context.getCacheDir() + "/tmp" + System.currentTimeMillis()+".raw";
+		try
+		{
+			byte[] buffer = new byte[is.available()];
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outPath));
+			int l = 0;
+			while((l = is.read(buffer)) > 0)
+				bos.write(buffer, 0, l);
+			bos.close();
+			tf = Typeface.createFromFile(outPath);
+			new File(outPath).delete();
+		}
+		catch (IOException e)
+		{
+			return null;
+		}
+		return tf;      
+	}
+	
 	private void mapView() {
 		ViewLookup.mapField(this.config.getCid()+"_1", llDisplayDateTime);
 		ViewLookup.mapField(this.config.getCid()+"_1_1", showTextDateTime);
@@ -80,7 +136,7 @@ public class DisplayDateTime implements IField {
 
 	private void setViewValues() {
 		tvDateTime.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		showTextDateTime.setText(datetime);
+		showTextDateTime.setText(dateTimeToRetainValue);
 		tvDateTime.setTextColor(-1);
 	}
 
@@ -126,6 +182,7 @@ public class DisplayDateTime implements IField {
 		this.cid=config.getCid();
 		if(llDisplayDateTime!=null){
 			datetime=showTextDateTime.getText().toString();
+			dateTimeToRetainValue=showTextDateTime.getText().toString();
 		}
 		validate();
 	}
@@ -138,7 +195,7 @@ public class DisplayDateTime implements IField {
 		tvDateTime=null;
 	}
 	
-	private void sample(int steps, final String date_format, final String field_type, final String maxDate, String existingFieldValue) {
+	private void openDialog(int steps, final String date_format, final String field_type, final String maxDate, final String existingFieldValue) {
 		try {
 			DateTimePicker.setSteps(steps);
 			final Dialog mDateTimeDialog = new Dialog(context);
@@ -151,11 +208,17 @@ public class DisplayDateTime implements IField {
 						@Override
 						public void onClick(View v) {
 							mDateTimePicker.clearFocus();
-							String returnDate = mDateTimePicker.returnDateTime(date_format);
+							String returnDateTime = mDateTimePicker.returnDateTime(date_format);
 							mDateTimeDialog.dismiss();
+							displayDateTime(returnDateTime);
+						}
+
+						private void displayDateTime(String returnDateTime) {
+							showTextDateTime.setText(returnDateTime);
+							datetime = returnDateTime;
 						}
 					});
-
+			
 			mDateTimeDialogView.findViewById(R.id.CancelDialog).setOnClickListener(
 					new OnClickListener() {
 						@Override
@@ -192,7 +255,7 @@ public class DisplayDateTime implements IField {
 	}
 	@SuppressLint("SimpleDateFormat")
 	private long getDate(String string) throws ParseException {
-		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS"); //$NON-NLS-1$
+		final SimpleDateFormat sdf = new SimpleDateFormat(config.getField_options().getDate_format()); //$NON-NLS-1$
 		sdf.setTimeZone(TimeZone.getTimeZone("UTC")); //$NON-NLS-1$
 		Date d = sdf.parse(string);
 		return d.getTime();
@@ -201,8 +264,13 @@ public class DisplayDateTime implements IField {
 	private Calendar getExistingFieldValueCalender(String existingTime,
 			String dateFormat) throws ParseException {
 		Calendar calendar = Calendar.getInstance();
-		if (!existingTime.equals("")) { //$NON-NLS-1$calendar.setTime(getExistingDate(existingTime, dateFormat));
+		if (!existingTime.equals("")) {
+			calendar.setTime(getExistingDate(existingTime, dateFormat));
 		}
 		return calendar;
+	}
+
+	private Date getExistingDate(String existingTime, String dateFormat) throws ParseException {
+		return new SimpleDateFormat(dateFormat).parse(existingTime);
 	}
 }

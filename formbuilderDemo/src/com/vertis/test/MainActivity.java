@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 				",{\"label\":\"Text\", \"field_type\":\"text\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c32\"}" +
 				",{\"label\":\"MultiLine Text\", \"field_type\":\"mtext\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c32\"}" +
 				",{\"label\":\"Price\", \"field_type\":\"price\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c27\"}" +
-				",{\"label\":\"DOB\",\"field_type\":\"date_time\",\"required\":false,\"field_options\":{\"minage\":\"21\",\"date_format\":\"mm/dd/yy\"},\"conditions\":[],\"cid\":\"c2\"}" +
+				",{\"label\":\"Date Time Picker\",\"field_type\":\"date_time\",\"required\":false,\"field_options\":{\"minage\":\"21\",\"date_format\":\"yyyy-MM-dd'T'HH:mm:ss.SSS\"},\"conditions\":[],\"cid\":\"c2\"}" +
 				"]}";		
 /**
  * Set up formbuiler by giving json, linearlayout where form is to be displayed

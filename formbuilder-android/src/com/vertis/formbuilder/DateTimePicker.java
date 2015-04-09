@@ -170,27 +170,21 @@ View.OnClickListener, OnDateChangedListener, OnTimeChangedListener{
 	}
 
 	public void controlShow(String type) {
-		if (type.equals("datetime")) { //$NON-NLS-1$
+		if (type.equals("birth_date")|| type.equals("date")) {
 			viewSwitcher.removeAllViews();
 			viewSwitcher.addView(datePickerControl, 0);
-			viewSwitcher.addView(timePickerControl, 1);
-		} else if (type.equals("birth_date")) { //$NON-NLS-1$
-			viewSwitcher.removeAllViews();
-			viewSwitcher.addView(datePickerControl, 0);
-		} else if (type.equals("date")) { //$NON-NLS-1$
-			viewSwitcher.removeAllViews();
-			viewSwitcher.addView(datePickerControl, 0);
-		} else if (type.equals("time")) { //$NON-NLS-1$
+			setButtonsVisibility(GONE);
+		} else if (type.equals("time")) { 
 			viewSwitcher.removeAllViews();
 			viewSwitcher.addView(timePickerControl, 0);
-		} else if (type.equals("endDateTimeDifference")) { //$NON-NLS-1$
+			setButtonsVisibility(GONE);
+		} else if (type.equals("endDateTimeDifference") 
+				|| type.equals("startDateTimeDifference") 
+				|| type.equals("date_time")) {
 			viewSwitcher.removeAllViews();
 			viewSwitcher.addView(datePickerControl, 0);
 			viewSwitcher.addView(timePickerControl, 1);
-		} else if (type.equals("startDateTimeDifference")) { //$NON-NLS-1$
-			viewSwitcher.removeAllViews();
-			viewSwitcher.addView(datePickerControl, 0);
-			viewSwitcher.addView(timePickerControl, 1);
+			setButtonsVisibility(VISIBLE);
 		}
 	}
 
