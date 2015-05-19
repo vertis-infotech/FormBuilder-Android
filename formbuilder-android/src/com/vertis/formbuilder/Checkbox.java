@@ -145,4 +145,41 @@ public class Checkbox implements IField {
 		llCheckBox=null;
 		tvCheckBox=null;		
 	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	public void hideField() {
+		if(llCheckBox!=null){
+			llCheckBox.setVisibility(View.GONE);
+			llCheckBox.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(llCheckBox!=null){
+			llCheckBox.setVisibility(View.VISIBLE);
+			llCheckBox.invalidate();
+		}
+	}
+
+	@Override
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			boolean check=false;
+			for (String checkedValue : checkedValues) {
+				if(checkedValue.equals(value)){
+					check=true;
+				}
+			}
+			if(check=true)
+				return true;
+			else
+				return false;
+		}
+		else
+			return false;
+	}
 }

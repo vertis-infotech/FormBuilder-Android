@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -28,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
 
@@ -49,7 +52,7 @@ public class DisplayDateTime implements IField {
 	@Expose
 	String dateTimeToRetainValue="";
 	private Activity context;
-	
+
 
 	public DisplayDateTime(FieldConfig fcg){
 		this.config=fcg;
@@ -87,6 +90,7 @@ public class DisplayDateTime implements IField {
 						datetime);
 			}
 		});
+
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
@@ -121,7 +125,7 @@ public class DisplayDateTime implements IField {
 		}
 		return tf;      
 	}
-	
+
 	private void mapView() {
 		ViewLookup.mapField(this.config.getCid()+"_1", llDisplayDateTime);
 		ViewLookup.mapField(this.config.getCid()+"_1_1", showTextDateTime);
@@ -194,7 +198,7 @@ public class DisplayDateTime implements IField {
 		showTextDateTime=null;
 		tvDateTime=null;
 	}
-	
+
 	private void openDialog(int steps, final String date_format, final String field_type, final String maxDate, final String existingFieldValue) {
 		try {
 			DateTimePicker.setSteps(steps);
@@ -218,7 +222,7 @@ public class DisplayDateTime implements IField {
 							datetime = returnDateTime;
 						}
 					});
-			
+
 			mDateTimeDialogView.findViewById(R.id.CancelDialog).setOnClickListener(
 					new OnClickListener() {
 						@Override
@@ -253,6 +257,7 @@ public class DisplayDateTime implements IField {
 			e.printStackTrace();
 		}
 	}
+
 	@SuppressLint("SimpleDateFormat")
 	private long getDate(String string) throws ParseException {
 		final SimpleDateFormat sdf = new SimpleDateFormat(config.getField_options().getDate_format()); //$NON-NLS-1$
@@ -272,5 +277,52 @@ public class DisplayDateTime implements IField {
 
 	private Date getExistingDate(String existingTime, String dateFormat) throws ParseException {
 		return new SimpleDateFormat(dateFormat).parse(existingTime);
+	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	public void hideField() {
+		if(llDisplayDateTime!=null){
+			llDisplayDateTime.setVisibility(View.GONE);
+			llDisplayDateTime.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(llDisplayDateTime!=null){
+			llDisplayDateTime.setVisibility(View.VISIBLE);
+			llDisplayDateTime.invalidate();
+		}
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			if(datetime.equals(value) || datetime.equals("")){
+				return true;
+			}
+			else 
+				return false;
+		}
+
+		else if(condition.equals("moreThan")){
+			if(Integer.parseInt(datetime)>Integer.parseInt(value) || datetime.equals("")){
+				return true;
+			}
+			else
+				return false;
+		}
+
+		else if(condition.equals("lessThan")){
+			if(Integer.parseInt(datetime)<Integer.parseInt(value) || datetime.equals("")){
+				return true;
+			}
+			else
+				return false;
+		}
+		else
+			return false;
 	}
 }

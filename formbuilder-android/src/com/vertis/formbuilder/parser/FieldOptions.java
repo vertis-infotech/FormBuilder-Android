@@ -38,7 +38,7 @@ public class FieldOptions {
 
 	public FieldOptions() {
 		this.steps = 1;
-		this.date_format = "DD/MM/YYYY";
+		this.date_format = "DD/MM/yyyy";
 		this.maxDate = "";
 		this.existingFieldValue = "";
 	}

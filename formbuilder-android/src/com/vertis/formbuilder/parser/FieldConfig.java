@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FieldConfig {
-
 	public String getLabel() {
 		return label;
 	}
@@ -38,12 +37,20 @@ public class FieldConfig {
 	//		this.options = options;
 	//	}
 
-	public ArrayList<HashMap<String, String>> getConditions() {
+//	public ArrayList<HashMap<String, String>> getConditions() {
+//		return conditions;
+//	}
+//	public void setConditions(ArrayList<HashMap<String, String>> conditions) {
+//		this.conditions = conditions;
+//	}
+	
+	public ArrayList<Conditions> getConditions() {
 		return conditions;
 	}
-	public void setConditions(ArrayList<HashMap<String, String>> conditions) {
-		this.conditions = conditions;
+	public void setConditions(ArrayList<Conditions> condition) {
+		this.conditions = condition;
 	}
+	
 	public String getCid() {
 		return cid;
 	}
@@ -62,7 +69,8 @@ public class FieldConfig {
 	Boolean required;
 	ArrayList<AllOptions> options = new ArrayList<AllOptions>();
 	FieldOptions field_options = new FieldOptions();
-	ArrayList<HashMap<String,String>> conditions = new ArrayList<HashMap<String,String>>();
+	ArrayList<Conditions> conditions= new ArrayList<Conditions>();
+	//ArrayList<HashMap<String,String>> conditions = new ArrayList<HashMap<String,String>>();
 	String cid;
 	int section_id=0;
 }

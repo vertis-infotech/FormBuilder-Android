@@ -174,4 +174,35 @@ public class Contact implements IField{
 		tvContact=null;
 		etContact=null;
 	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	public void hideField() {
+		if(llContact!=null){
+			llContact.setVisibility(View.GONE);
+			llContact.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(llContact!=null){
+			llContact.setVisibility(View.VISIBLE);
+			llContact.invalidate();
+		}
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			if(contactNo.equals(value) || contactNo.equals("")){
+				return true;
+			}
+			else 
+				return false;
+		}
+		else
+			return false;
+	}
 }

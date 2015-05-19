@@ -58,6 +58,8 @@ public class FullNameXml implements IField {
 	String firstName="";
 	@Expose
 	String lastName="";
+	@Expose
+	String fullName="";
 
 	//constructor to populate config
 	public FullNameXml(FieldConfig fcg){
@@ -127,7 +129,7 @@ public class FullNameXml implements IField {
 			prefixArr.add(new SelectElement(i, string, string));
 		return prefixArr;
 	}
- 
+
 	void defineViewSettings(Activity context){
 		prefixBox.setAdapter(getAdapter(context));
 		firstNameTextBox.setHint(firstNameHint);
@@ -189,6 +191,7 @@ public class FullNameXml implements IField {
 			lastName=lastNameTextBox.getText().toString();
 			prefixPosition=prefixBox.getSelectedItemPosition();
 			prefix=prefixBox.getSelectedItem().toString();
+			fullName=firstName+lastName;
 		}
 		validate();
 	}
@@ -218,5 +221,36 @@ public class FullNameXml implements IField {
 		if(headingText==null)return;
 		headingText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		headingText.setTextColor(R.color.TextViewNormal);
+	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	public void hideField() {
+		if(subForm!=null){
+			subForm.setVisibility(View.GONE);
+			subForm.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(subForm!=null){
+			subForm.setVisibility(View.VISIBLE);
+			subForm.invalidate();
+		}
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			if(fullName.toLowerCase().contains(value) || fullName.trim().equals("")){
+				return true;
+			}
+			else 
+				return false;
+		}
+		else
+			return false;
 	}
 };

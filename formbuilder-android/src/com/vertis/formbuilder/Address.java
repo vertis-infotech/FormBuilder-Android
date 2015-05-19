@@ -14,10 +14,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Typeface;
+import android.opengl.Visibility;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +29,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.IField;
 import com.vertis.formbuilder.parser.FieldConfig;
@@ -65,6 +69,8 @@ public class Address implements IField {
 	String state="";
 	@Expose
 	String zip="";
+	@Expose
+	String fullAddress="";
 
 	//constructor to populate config
 	public Address(FieldConfig fcg){
@@ -117,9 +123,8 @@ public class Address implements IField {
 		noErrorMessageCity();
 		noErrorMessageState();
 		noErrorMessageZip();
-		noErrorMessageCountry();
 	}
-	
+
 	private Typeface getFontFromRes(int resource, Context context)
 	{ 
 		Typeface tf = null;
@@ -147,7 +152,7 @@ public class Address implements IField {
 		}
 		return tf;      
 	}
-	
+
 	private void mapView() {
 		ViewLookup.mapField(this.config.getCid()+"_1", ad);
 		ViewLookup.mapField(this.config.getCid()+"_1_1",streetEditText);
@@ -163,9 +168,6 @@ public class Address implements IField {
 		zipEditText.setText(zip);
 		countriesSpinner.setSelection(countryPosition);
 	}
-
-
-
 
 	private ArrayList<SelectElement> getCountryList() {
 		Locale[] locale = Locale.getAvailableLocales();
@@ -236,7 +238,7 @@ public class Address implements IField {
 	public ViewGroup getView() {
 		return ad;
 	}
-	
+
 	@Override
 	public boolean validate() {
 		boolean valid = false;
@@ -328,28 +330,28 @@ public class Address implements IField {
 		streetTextView.setText(this.config.getRequired()?"Street*":"" );
 		streetTextView.setTextColor(R.color.TextViewNormal);
 	}
-	
+
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageCity() {
 		if(cityTextView==null)return;
 		cityTextView.setText(this.config.getRequired()?"City*":"" );
 		cityTextView.setTextColor(R.color.TextViewNormal);
 	}
-	
+
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageState() {
 		if(stateTextView==null)return;
 		stateTextView.setText(this.config.getRequired()?"State*":"" );
 		stateTextView.setTextColor(R.color.TextViewNormal);
 	}
-	
+
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageZip() {
 		if(zipTextView==null)return;
 		zipTextView.setText(this.config.getRequired()?"Zip*":"" );
 		zipTextView.setTextColor(R.color.TextViewNormal);
 	}
-	
+
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessageCountry() {
 		if(countryTextView==null)return;
@@ -366,6 +368,7 @@ public class Address implements IField {
 			zip=zipEditText.getText().toString();
 			countryPosition=countriesSpinner.getSelectedItemPosition();
 			country=countriesSpinner.getSelectedItem().toString();
+			fullAddress=street+city+state+zip+country;
 		}
 		validate();
 	}
@@ -386,5 +389,37 @@ public class Address implements IField {
 		zipTextView=null;
 		countriesSpinner=null;
 		countryTextView=null;
+	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	@Override
+	public void hideField() {
+		if(ad!=null){
+			ad.setVisibility(View.GONE);
+			ad.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(ad!=null){
+			ad.setVisibility(View.VISIBLE);
+			ad.invalidate();
+		}
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			if(fullAddress.toLowerCase().contains(value) || fullAddress.trim().equals("")){
+				return true;
+			}
+			else 
+				return false;
+		}
+		else
+			return false;
 	}
 }

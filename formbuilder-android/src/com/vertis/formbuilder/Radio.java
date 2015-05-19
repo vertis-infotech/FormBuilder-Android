@@ -137,4 +137,35 @@ class Radio implements IField {
 		headingText=null;
 		radioGroup=null;
 	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	public void hideField() {
+		if(subForm!=null){
+			subForm.setVisibility(View.GONE);
+			subForm.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(subForm!=null){
+			subForm.setVisibility(View.VISIBLE);
+			subForm.invalidate();
+		}
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			if(optionSelected.equals(value) || optionSelected.equals("")){
+				return true;
+			}
+			else 
+				return false;
+		}
+		else
+			return false;
+	}
 };

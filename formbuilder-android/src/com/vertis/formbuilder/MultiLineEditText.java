@@ -161,4 +161,35 @@ public class MultiLineEditText implements IField{
 		tvEditText=null;
 		etEditText=null;
 	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	public void hideField() {
+		if(llEditText!=null){
+			llEditText.setVisibility(View.GONE);
+			llEditText.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(llEditText!=null){
+			llEditText.setVisibility(View.VISIBLE);
+			llEditText.invalidate();
+		}
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			if(mtext.equals(value) || mtext.equals("")){
+				return true;
+			}
+			else 
+				return false;
+		}
+		else
+			return false;
+	}
 }

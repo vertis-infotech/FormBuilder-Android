@@ -18,7 +18,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class FormBuilder {
-	TreeMap<Integer,ArrayList<IField>> fields = new TreeMap<Integer, ArrayList<IField>>();
+	
+	static TreeMap<Integer,ArrayList<IField>> fields = new TreeMap<Integer, ArrayList<IField>>();
 	int currentSection;
 	/**
 	 * Private Variables:
@@ -37,6 +38,10 @@ public class FormBuilder {
 	LinearLayout previousNextContainer;
 	Button previousButton;
 	Button nextButton;
+	public FormBuilder() {
+		fields =  new TreeMap<Integer, ArrayList<IField>>();
+	}
+	
 	/**
 	 * 
 	 * previous and next button will be used if there are section breaks

@@ -5,39 +5,47 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Typeface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
 
-public class SimpleEditText implements IField{
+public class NumberField implements IField{
 
 	private FieldConfig config;
 	//Views
-	LinearLayout llEditText;
-	TextView tvEditText;
-	EditText etEditText;
+	LinearLayout llNumber;
+	TextView tvNumber;
+	EditText etNumber;
 
 	//Values
 	@Expose
 	String cid;
 	@Expose
-	String text="";
+	String number="";
 
-	public SimpleEditText(FieldConfig fcg){
+	public NumberField(FieldConfig fcg){
 		this.config=fcg;
 	}	
 
@@ -45,14 +53,17 @@ public class SimpleEditText implements IField{
 	@Override
 	public void createForm(Activity context) {
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
-		llEditText=(LinearLayout) inflater.inflate(R.layout.simple_edit_text,null);
-		tvEditText = (TextView) llEditText.findViewById(R.id.simpleTextView);
-		etEditText = (EditText) llEditText.findViewById(R.id.simpleEditText);
-		etEditText.setTypeface(getFontFromRes(R.raw.roboto, context));
-		tvEditText.setTypeface(getFontFromRes(R.raw.roboto, context));
-		etEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
-		tvEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-		tvEditText.setTextColor(R.color.TextViewNormal);
+		llNumber=(LinearLayout) inflater.inflate(R.layout.number_edit_text,null);
+		tvNumber = (TextView) llNumber.findViewById(R.id.numberTextView);
+		etNumber = (EditText) llNumber.findViewById(R.id.numberEditText);
+		etNumber.setTypeface(getFontFromRes(R.raw.roboto, context));
+		tvNumber.setTypeface(getFontFromRes(R.raw.roboto, context));
+		etNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		tvNumber.setTextColor(R.color.TextViewNormal);
+		
+		etNumber.addTextChangedListener(new SingletonTextChangeListener(config));
+
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
@@ -90,24 +101,24 @@ public class SimpleEditText implements IField{
 
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessage() {
-		if(tvEditText==null)return;
-		tvEditText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		tvEditText.setTextColor(R.color.TextViewNormal);
+		if(tvNumber==null)return;
+		tvNumber.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		tvNumber.setTextColor(R.color.TextViewNormal);
 	}
 
 	private void mapView() {
-		ViewLookup.mapField(this.config.getCid()+"_1", llEditText);
-		ViewLookup.mapField(this.config.getCid()+"_1_1", etEditText);
+		ViewLookup.mapField(this.config.getCid()+"_1", llNumber);
+		ViewLookup.mapField(this.config.getCid()+"_1_1", etNumber);
 	}
 
 	private void setViewValues() {
-		tvEditText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		etEditText.setText(text);
-		tvEditText.setTextColor(-1);
+		tvNumber.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		etNumber.setText(number);
+		tvNumber.setTextColor(-1);
 	}
 
 	private void defineViewSettings(Activity context) {
-		etEditText.setOnFocusChangeListener( new OnFocusChangeListener() {
+		etNumber.setOnFocusChangeListener( new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus)
@@ -120,13 +131,13 @@ public class SimpleEditText implements IField{
 
 	@Override
 	public ViewGroup getView() {
-		return llEditText;
+		return llNumber;
 	}
 
 	@Override
 	public boolean validate() {
 		boolean valid;
-		if(config.getRequired() && text.equals("")){
+		if(config.getRequired() && number.equals("")){
 			valid=false;
 			errorMessage(" Required");
 		}
@@ -139,54 +150,73 @@ public class SimpleEditText implements IField{
 
 	@SuppressLint("ResourceAsColor")
 	private void errorMessage(String message) {
-		if(tvEditText==null)return;
-		tvEditText.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		tvEditText.setText(tvEditText.getText() + message);
-		tvEditText.setTextColor(R.color.ErrorMessage);
+		if(tvNumber==null)return;
+		tvNumber.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		tvNumber.setText(tvNumber.getText() + message);
+		tvNumber.setTextColor(R.color.ErrorMessage);
 	}
 
 	@Override
 	public void setValues() {
 		this.cid=config.getCid();
-		if(llEditText!=null){
-			text=etEditText.getText().toString();
+		if(llNumber!=null){
+			number=etNumber.getText().toString();
 		}
 		validate();
+
 	}
 
 	@Override
 	public void clearViews() {
 		setValues();
-		llEditText=null;
-		tvEditText=null;
-		etEditText=null;
+		llNumber=null;
+		tvNumber=null;
+		etNumber=null;
 	}
 
+	@Override
 	public String getCIDValue() {
 		return this.config.getCid();
 	}
 
 	public void hideField() {
-		if(llEditText!=null){
-			llEditText.setVisibility(View.GONE);
-			llEditText.invalidate();
+		if(llNumber!=null){
+			llNumber.setVisibility(View.GONE);
+			llNumber.invalidate();
 		}
 	}
 
 	@Override
 	public void showField() {
-		if(llEditText!=null){
-			llEditText.setVisibility(View.VISIBLE);
-			llEditText.invalidate();
+		if(llNumber!=null){
+			llNumber.setVisibility(View.VISIBLE);
+			llNumber.invalidate();
 		}
 	}
 
+	@Override
 	public boolean validateDisplay(String value,String condition) {
 		if(condition.equals("equals")){
-			if(text.equals(value) || text.equals("")){
+			if(number.equals(value) || number.equals("")){
 				return true;
 			}
 			else 
+				return false;
+		}
+
+		else if(condition.equals("moreThan")){
+			if(Integer.parseInt(number)>Integer.parseInt(value) || number.equals("")){
+				return true;
+			}
+			else
+				return false;
+		}
+
+		else if(condition.equals("lessThan")){
+			if(Integer.parseInt(number)<Integer.parseInt(value) || number.equals("")){
+				return true;
+			}
+			else
 				return false;
 		}
 		else

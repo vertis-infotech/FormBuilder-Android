@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +35,7 @@ public class Email implements IField{
 	LinearLayout em;
 	TextView emailTextBox;
 	EditText emailEditBox;
+	ArrayList Conditions;
 
 	//Values
 	@Expose
@@ -173,5 +175,36 @@ public class Email implements IField{
 		em=null;
 		emailTextBox=null;
 		emailEditBox=null;
+	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	public void hideField() {
+		if(em!=null){
+			em.setVisibility(View.GONE);
+			em.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(em!=null){
+			em.setVisibility(View.VISIBLE);
+			em.invalidate();
+		}
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			if(emailid.equals(value) || emailid.equals("")){
+				return true;
+			}
+			else 
+				return false;
+		}
+		else
+			return false;
 	}
 }

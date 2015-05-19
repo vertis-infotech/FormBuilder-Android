@@ -2,6 +2,8 @@ package com.vertis.formbuilder;
 
 import java.util.HashMap;
 
+import android.util.Config;
+
 public class FieldRegistry {
 
 	@SuppressWarnings("rawtypes")
@@ -25,8 +27,10 @@ public class FieldRegistry {
 		fields.put("time", DisplayDateTime.class);
 		fields.put("endDateTimeDifference", DisplayDateTime.class);
 		fields.put("startDateTimeDifference", DisplayDateTime.class);
+		fields.put("take_pic_video_audio", Capture.class);
+		fields.put("number", NumberField.class);
 		}
-	
+
 	@SuppressWarnings("rawtypes")
 	public static Class getField(String typeName){		
 		return fields.get(typeName);

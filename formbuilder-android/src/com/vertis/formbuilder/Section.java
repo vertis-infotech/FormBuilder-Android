@@ -40,5 +40,23 @@ public class Section implements IField {
 	public void clearViews() {
 
 	}
+	
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	@Override
+	public void hideField() {
+		
+	}
+
+	@Override
+	public void showField() {
+		
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		return false;
+	}
 
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class CountriesArrayAdapter extends ArrayAdapter<SelectElement> {
 	ArrayList<SelectElement> CountryList;
+	
 	public CountriesArrayAdapter(Context context,ArrayList<SelectElement> CountryList) {
 		super(context, android.R.layout.simple_list_item_1, CountryList);
 		this.CountryList = CountryList;

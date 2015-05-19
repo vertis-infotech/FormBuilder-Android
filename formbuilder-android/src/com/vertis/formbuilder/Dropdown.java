@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -19,21 +20,21 @@ import android.widget.TextView;
 public class Dropdown implements IField{
 
 	private FieldConfig config;
-	
+
 	LinearLayout llDropdown;
 	TextView tvDropdown;
 	Spinner sDropdown;
-	
+
 	@Expose
 	String cid;
 	@Expose
 	String drop="";
 	int ddPosition=0;
-	
+
 	public Dropdown(FieldConfig fcg){
 		this.config=fcg;
 	}
-	
+
 	@Override
 	public void createForm(Activity context) {
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
@@ -51,7 +52,7 @@ public class Dropdown implements IField{
 
 	private void noErrorMessage() {
 		if(tvDropdown==null)return;
-		tvDropdown.setText(this.config.getRequired()?"Dropdown":"" );
+		tvDropdown.setText(this.config.getLabel() + (this.config.getRequired()?"*":""));
 		tvDropdown.setTextColor(android.R.color.black);
 	}
 
@@ -61,7 +62,9 @@ public class Dropdown implements IField{
 	}
 
 	private void setViewValues() {
+		tvDropdown.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
 		sDropdown.setSelection(ddPosition);
+		tvDropdown.setTextColor(-1);
 	}
 
 	private void defineViewSettings(Activity context) {
@@ -106,7 +109,7 @@ public class Dropdown implements IField{
 
 	private void errorMessage(String message) {
 		if(tvDropdown==null)return;
-		tvDropdown.setText((this.config.getRequired()?"*":"") );
+		tvDropdown.setText((this.config.getRequired()?"*":""));
 		tvDropdown.setText(tvDropdown.getText() + message);
 		tvDropdown.setTextColor(-65536);
 	}
@@ -126,5 +129,36 @@ public class Dropdown implements IField{
 		llDropdown=null;
 		tvDropdown=null;
 		sDropdown=null;
+	}
+
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	public void hideField() {
+		if(llDropdown!=null){
+			llDropdown.setVisibility(View.GONE);
+			llDropdown.invalidate();
+		}
+	}
+
+	@Override
+	public void showField() {
+		if(llDropdown!=null){
+			llDropdown.setVisibility(View.VISIBLE);
+			llDropdown.invalidate();
+		}
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		if(condition.equals("equals")){
+			if(drop.equals(value) || drop.equals("")){
+				return true;
+			}
+			else 
+				return false;
+		}
+		else
+			return false;
 	}
 }
