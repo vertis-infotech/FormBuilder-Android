@@ -2,7 +2,7 @@
 	.metadata/
 	.project
 	.settings/
-	bin/
-	gen/
+	./bin/
+	./gen/
 
 
