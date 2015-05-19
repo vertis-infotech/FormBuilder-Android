@@ -1,0 +1,28 @@
+
+How to change the image for radio button/checkbox:
+
+1. Download the drawable/image from "http://android-holo-colors.com/".
+   This site can be used to download the drawables for the color of your choice.
+  
+2. Transfer the contents to "workspace\FormBuilder-Android\formbuilder-android\res".
+   Ensure that the files are present in the various drawable folders.
+    
+3. Go to "radio_custom.xml" for radio button, or "check_custom.xml" for checkbox present in the drawable folder.
+
+4. Identify the name of the image file in the required item tag-->android:drawable and change the file to the required 
+   drawable.
+
+
+How to change colors in UI:
+
+1. Go to "color.xml" present in res/values.
+
+2. To change the TextView color, change the present color code to the required color code for the color name 
+   "TextViewNormal".
+ 
+3. To change the color of EditText borders, change the present color code to the required color code for the color name
+   1) "EditTextBeforeBorder" - When the focus is not on the EditText
+   2) "EditTextAfterBorder" - When the focus is on the EditText
+   
+4. To change the color of the ErrorMessage, change the present color code to the required color code for the color name 
+   "ErrorMessage".

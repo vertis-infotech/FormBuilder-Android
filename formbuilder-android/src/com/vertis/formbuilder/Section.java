@@ -3,7 +3,6 @@ package com.vertis.formbuilder;
 import com.vertis.formbuilder.parser.FieldConfig;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
@@ -40,6 +39,24 @@ public class Section implements IField {
 	@Override
 	public void clearViews() {
 
+	}
+	
+	public String getCIDValue() {
+		return this.config.getCid();
+	}
+
+	@Override
+	public void hideField() {
+		
+	}
+
+	@Override
+	public void showField() {
+		
+	}
+
+	public boolean validateDisplay(String value,String condition) {
+		return false;
 	}
 
 }
