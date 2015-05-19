@@ -1,12 +1,2 @@
-formbuilder-android/.project
-formbuilder-android/.settings/
-formbuilder-android/bin/
-formbuilder-android/gen/
-formbuilder-android/project.properties
-formbuilderDemo/.classpath
-formbuilderDemo/.project
-formbuilderDemo/.settings/
-formbuilderDemo/bin/
-formbuilderDemo/gen/
-formbuilderDemo/project.properties
-formbuilder-android/.classpath
+*/bin/*
+*/gen/*
