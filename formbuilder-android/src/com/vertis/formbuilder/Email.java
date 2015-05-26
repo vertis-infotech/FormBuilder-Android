@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -59,6 +60,9 @@ public class Email implements IField{
 		emailEditBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		emailTextBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		emailTextBox.setTextColor(R.color.TextViewNormal);
+		
+		emailEditBox.addTextChangedListener(new TextChangeListener(config));
+		
 		defineViewSettings(context);
 		setViewValues();
 		mapView();

@@ -58,7 +58,7 @@ class Radio implements IField {
 		int i = 0;
 		for (i = 0; i < this.config.getField_options().getOptions().size(); i++) {
 			addButton(i, context);
-		}
+		}		
 		mapView();
 		setViewValues();
 	}
@@ -159,7 +159,7 @@ class Radio implements IField {
 
 	public boolean validateDisplay(String value,String condition) {
 		if(condition.equals("equals")){
-			if(optionSelected.equals(value) || optionSelected.equals("")){
+			if(optionSelected.toLowerCase().equals(value.toLowerCase()) || optionSelected.equals("")){
 				return true;
 			}
 			else 

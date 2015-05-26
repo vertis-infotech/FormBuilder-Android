@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -69,7 +70,7 @@ public class Address implements IField {
 	String state="";
 	@Expose
 	String zip="";
-	@Expose
+	
 	String fullAddress="";
 
 	//constructor to populate config
@@ -115,6 +116,8 @@ public class Address implements IField {
 		cityEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		stateEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		zipEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		
+		addTextChangeListeners();
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
@@ -123,6 +126,13 @@ public class Address implements IField {
 		noErrorMessageCity();
 		noErrorMessageState();
 		noErrorMessageZip();
+	}
+
+	private void addTextChangeListeners() {
+		streetEditText.addTextChangedListener(new TextChangeListener(config));
+		cityEditText.addTextChangedListener(new TextChangeListener(config));
+		stateEditText.addTextChangedListener(new TextChangeListener(config));
+		zipEditText.addTextChangedListener(new TextChangeListener(config));
 	}
 
 	private Typeface getFontFromRes(int resource, Context context)
@@ -368,7 +378,7 @@ public class Address implements IField {
 			zip=zipEditText.getText().toString();
 			countryPosition=countriesSpinner.getSelectedItemPosition();
 			country=countriesSpinner.getSelectedItem().toString();
-			fullAddress=street+city+state+zip+country;
+			fullAddress=street+" "+city+" "+state+" "+zip+" "+country;
 		}
 		validate();
 	}
@@ -413,7 +423,7 @@ public class Address implements IField {
 
 	public boolean validateDisplay(String value,String condition) {
 		if(condition.equals("equals")){
-			if(fullAddress.toLowerCase().contains(value) || fullAddress.trim().equals("")){
+			if(fullAddress.toLowerCase().contains(value.toLowerCase()) || fullAddress.trim().equals("")){
 				return true;
 			}
 			else 

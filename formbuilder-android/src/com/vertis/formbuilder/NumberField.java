@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -62,7 +63,7 @@ public class NumberField implements IField{
 		tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		tvNumber.setTextColor(R.color.TextViewNormal);
 		
-		etNumber.addTextChangedListener(new SingletonTextChangeListener(config));
+		etNumber.addTextChangedListener(new TextChangeListener(config));
 
 		defineViewSettings(context);
 		setViewValues();

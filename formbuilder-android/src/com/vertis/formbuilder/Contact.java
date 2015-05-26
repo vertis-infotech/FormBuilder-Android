@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -57,6 +58,9 @@ public class Contact implements IField{
 		etContact.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		tvContact.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		tvContact.setTextColor(R.color.TextViewNormal);
+		
+		etContact.addTextChangedListener(new TextChangeListener(config));
+		
 		defineViewSettings(context);
 		setViewValues();
 		mapView();

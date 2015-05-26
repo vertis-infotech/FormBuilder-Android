@@ -9,6 +9,7 @@ import java.io.InputStream;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -66,11 +67,19 @@ public class Price implements IField {
 		tvPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
 		etDollars.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		etCents.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		
+		addTextChangeListeners();
+		
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
 		setValues();
 		noErrorMessage();
+	}
+
+	private void addTextChangeListeners() {
+		etDollars.addTextChangedListener(new TextChangeListener(config));
+		etCents.addTextChangedListener(new TextChangeListener(config));
 	}
 
 	private Typeface getFontFromRes(int resource, Context context)

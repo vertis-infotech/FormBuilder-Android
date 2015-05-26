@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -53,6 +54,9 @@ public class MultiLineEditText implements IField{
 		etEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		tvEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		tvEditText.setTextColor(R.color.TextViewNormal);
+		
+		etEditText.addTextChangedListener(new TextChangeListener(config));
+		
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
@@ -183,7 +187,7 @@ public class MultiLineEditText implements IField{
 
 	public boolean validateDisplay(String value,String condition) {
 		if(condition.equals("equals")){
-			if(mtext.equals(value) || mtext.equals("")){
+			if(mtext.toLowerCase().equals(value.toLowerCase()) || mtext.equals("")){
 				return true;
 			}
 			else 

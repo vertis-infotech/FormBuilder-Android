@@ -170,7 +170,7 @@ public class Checkbox implements IField {
 		if(condition.equals("equals")){
 			boolean check=false;
 			for (String checkedValue : checkedValues) {
-				if(checkedValue.equals(value)){
+				if(checkedValue.toLowerCase().equals(value.toLowerCase())){
 					check=true;
 				}
 			}

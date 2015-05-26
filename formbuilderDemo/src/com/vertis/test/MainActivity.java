@@ -37,9 +37,9 @@ public class MainActivity extends Activity {
 		//				",{\"label\":\"Number\", \"field_type\":\"number\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c14\"}" +
 		//				"]}";
 
-		String jsonstr =	"{\"fields\":[{\"label\":\"Number\",\"field_type\":\"number\",\"required\":false,\"field_options\":{\"size\":\"small\"},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"1000\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":false},{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"1000\",\"action\":\"hide\",\"target\":\"c8\",\"isSource\":false}],\"cid\":\"c6\"},"
-				+ "{\"label\":\"Birthdate\",\"field_type\":\"birth_date\",\"required\":false,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"1000\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":true}],\"cid\":\"c4\"},"
-				+ "{\"label\":\"Add\",\"field_type\":\"address\",\"required\":true,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"1000\",\"action\":\"hide\",\"target\":\"c8\",\"isSource\":true}],\"cid\":\"c8\"}],\"latest_cid\":8}";
+		String jsonstr =	"{\"fields\":[{\"label\":\"Contact\",\"field_type\":\"contact\",\"required\":false,\"field_options\":{\"size\":\"small\"},\"field_options\":{\"options\":[{\"label\":\"y\",\"checked\":false},{\"label\":\"n\",\"checked\":false}]},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"911\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":false},{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"911\",\"action\":\"hide\",\"target\":\"c8\",\"isSource\":false}],\"cid\":\"c6\"},"
+				+ "{\"label\":\"Birthdate\",\"field_type\":\"birth_date\",\"required\":false,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"911\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":true}],\"cid\":\"c4\"},"
+				+ "{\"label\":\"Address\",\"field_type\":\"address\",\"required\":true,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"911\",\"action\":\"hide\",\"target\":\"c8\",\"isSource\":true}],\"cid\":\"c8\"}],\"latest_cid\":8}";
 
 		/**
 		 * Set up formbuiler by giving json, linearlayout where form is to be displayed
