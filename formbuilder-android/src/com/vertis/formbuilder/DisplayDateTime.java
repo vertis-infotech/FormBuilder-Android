@@ -33,6 +33,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import com.vertis.formbuilder.util.FormBuilderUtil;
 
 @SuppressLint("SimpleDateFormat")
 public class DisplayDateTime implements IField {
@@ -52,7 +53,7 @@ public class DisplayDateTime implements IField {
 	@Expose
 	String dateTimeToRetainValue="";
 	private Activity context;
-
+	private Typeface font;
 
 	public DisplayDateTime(FieldConfig fcg){
 		this.config=fcg;
@@ -62,16 +63,17 @@ public class DisplayDateTime implements IField {
 	@Override
 	public void createForm(Activity context) {
 		this.context = context;
+		font = new FormBuilderUtil().getFontFromRes(context);
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
-		llDisplayDateTime=(LinearLayout) inflater.inflate(R.layout.display_date_time,null);
+		llDisplayDateTime=(LinearLayout) inflater.inflate(R.layout.display_date_time, null);
 		showTextDateTime = (TextView) llDisplayDateTime.findViewById(R.id.showTextDateTime);
 		tvDateTime=(TextView) llDisplayDateTime.findViewById(R.id.tvErrorMessage);
 		datetime = config.getField_options().getExistingFieldValue();
-		tvDateTime.setTypeface(getFontFromRes(R.raw.roboto, context));
-		showTextDateTime.setTypeface(getFontFromRes(R.raw.roboto, context));
-		showTextDateTime.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
-		tvDateTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		tvDateTime.setTextColor(R.color.TextViewNormal);
+		showTextDateTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float) 12.5);
+		tvDateTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		tvDateTime.setTypeface(font);
+		showTextDateTime.setTypeface(font);
 		showTextDateTime.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -96,34 +98,6 @@ public class DisplayDateTime implements IField {
 		mapView();
 		setValues();
 		noErrorMessage();
-	}
-
-	private Typeface getFontFromRes(int resource, Context context)
-	{ 
-		Typeface tf = null;
-		InputStream is = null;
-		try {
-			is = context.getResources().openRawResource(resource);
-		}
-		catch(NotFoundException e) {
-		}
-		String outPath = context.getCacheDir() + "/tmp" + System.currentTimeMillis()+".raw";
-		try
-		{
-			byte[] buffer = new byte[is.available()];
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outPath));
-			int l = 0;
-			while((l = is.read(buffer)) > 0)
-				bos.write(buffer, 0, l);
-			bos.close();
-			tf = Typeface.createFromFile(outPath);
-			new File(outPath).delete();
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-		return tf;      
 	}
 
 	private void mapView() {
@@ -303,26 +277,15 @@ public class DisplayDateTime implements IField {
 			if(datetime.equals(value) || datetime.equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-
-		else if(condition.equals("moreThan")){
+		} else if(condition.equals("is greater than")){
 			if(Integer.parseInt(datetime)>Integer.parseInt(value) || datetime.equals("")){
 				return true;
 			}
-			else
-				return false;
-		}
-
-		else if(condition.equals("lessThan")){
+		} else if(condition.equals("is less than")){
 			if(Integer.parseInt(datetime)<Integer.parseInt(value) || datetime.equals("")){
 				return true;
 			}
-			else
-				return false;
 		}
-		else
-			return false;
+		return false;
 	}
 }

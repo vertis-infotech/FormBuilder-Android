@@ -8,6 +8,7 @@ import java.io.InputStream;
 
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import com.vertis.formbuilder.util.FormBuilderUtil;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -27,6 +28,7 @@ public class Price implements IField {
 
 	//config contains all data from json ie id,sid,label,field_options
 	private FieldConfig config;
+	private Typeface font;
 
 	public Price(FieldConfig fcg){
 		this.config=fcg;
@@ -55,14 +57,15 @@ public class Price implements IField {
 
 	@Override
 	public void createForm(Activity context) {
+		font = new FormBuilderUtil().getFontFromRes(context);
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
 		llPrice=(LinearLayout) inflater.inflate(R.layout.price,null);
 		tvPrice = (TextView) llPrice.findViewById(R.id.textViewPrice);
 		etDollars = (EditText) llPrice.findViewById(R.id.dollars);
 		etCents = (EditText) llPrice.findViewById(R.id.cents);
-		tvPrice.setTypeface(getFontFromRes(R.raw.roboto, context));
-		etDollars.setTypeface(getFontFromRes(R.raw.roboto, context));
-		etCents.setTypeface(getFontFromRes(R.raw.roboto, context));
+		tvPrice.setTypeface(font);
+		etDollars.setTypeface(font);
+		etCents.setTypeface(font);
 		tvPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
 		etDollars.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		etCents.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
@@ -71,34 +74,6 @@ public class Price implements IField {
 		mapView();
 		setValues();
 		noErrorMessage();
-	}
-
-	private Typeface getFontFromRes(int resource, Context context)
-	{ 
-		Typeface tf = null;
-		InputStream is = null;
-		try {
-			is = context.getResources().openRawResource(resource);
-		}
-		catch(NotFoundException e) {
-		}
-		String outPath = context.getCacheDir() + "/tmp" + System.currentTimeMillis()+".raw";
-		try
-		{
-			byte[] buffer = new byte[is.available()];
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outPath));
-			int l = 0;
-			while((l = is.read(buffer)) > 0)
-				bos.write(buffer, 0, l);
-			bos.close();
-			tf = Typeface.createFromFile(outPath);
-			new File(outPath).delete();
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-		return tf;      
 	}
 
 	@SuppressLint("ResourceAsColor")
@@ -218,26 +193,15 @@ public class Price implements IField {
 			if(totalPrice.equals(value) || totalPrice.equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-
-		else if(condition.equals("moreThan")){
+		} else if(condition.equals("is greater than")){
 			if(Integer.parseInt(totalPrice)>Integer.parseInt(value) || totalPrice.equals("")){
 				return true;
 			}
-			else
-				return false;
-		}
-
-		else if(condition.equals("lessThan")){
+		} else if(condition.equals("is less than")){
 			if(Integer.parseInt(totalPrice)<Integer.parseInt(value) || totalPrice.equals("")){
 				return true;
 			}
-			else
-				return false;
 		}
-		else
-			return false;
+		return false;
 	}
 }

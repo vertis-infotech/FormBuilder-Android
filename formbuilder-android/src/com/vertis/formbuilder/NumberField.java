@@ -5,31 +5,24 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Typeface;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import com.vertis.formbuilder.util.FormBuilderUtil;
 
 public class NumberField implements IField{
 
@@ -44,6 +37,7 @@ public class NumberField implements IField{
 	String cid;
 	@Expose
 	String number="";
+	private Typeface font;
 
 	public NumberField(FieldConfig fcg){
 		this.config=fcg;
@@ -52,17 +46,18 @@ public class NumberField implements IField{
 	@SuppressLint("ResourceAsColor")
 	@Override
 	public void createForm(Activity context) {
+		font = new FormBuilderUtil().getFontFromRes(context);
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
 		llNumber=(LinearLayout) inflater.inflate(R.layout.number_edit_text,null);
 		tvNumber = (TextView) llNumber.findViewById(R.id.numberTextView);
 		etNumber = (EditText) llNumber.findViewById(R.id.numberEditText);
-		etNumber.setTypeface(getFontFromRes(R.raw.roboto, context));
-		tvNumber.setTypeface(getFontFromRes(R.raw.roboto, context));
+		etNumber.setTypeface(font);
+		tvNumber.setTypeface(font);
 		etNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		tvNumber.setTextColor(R.color.TextViewNormal);
 		
-		etNumber.addTextChangedListener(new SingletonTextChangeListener(config));
+		etNumber.addTextChangedListener(new CustomTextChangeListener(config));
 
 		defineViewSettings(context);
 		setViewValues();
@@ -70,35 +65,7 @@ public class NumberField implements IField{
 		setValues();
 		noErrorMessage();
 	}
-
-	private Typeface getFontFromRes(int resource, Context context)
-	{ 
-		Typeface tf = null;
-		InputStream is = null;
-		try {
-			is = context.getResources().openRawResource(resource);
-		}
-		catch(NotFoundException e) {
-		}
-		String outPath = context.getCacheDir() + "/tmp" + System.currentTimeMillis()+".raw";
-		try
-		{
-			byte[] buffer = new byte[is.available()];
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outPath));
-			int l = 0;
-			while((l = is.read(buffer)) > 0)
-				bos.write(buffer, 0, l);
-			bos.close();
-			tf = Typeface.createFromFile(outPath);
-			new File(outPath).delete();
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-		return tf;      
-	}
-
+	
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessage() {
 		if(tvNumber==null)return;
@@ -200,26 +167,15 @@ public class NumberField implements IField{
 			if(number.equals(value) || number.equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-
-		else if(condition.equals("moreThan")){
-			if(Integer.parseInt(number)>Integer.parseInt(value) || number.equals("")){
+		} else if(condition.equals("is greater than")){
+			if(Integer.parseInt(number) > Integer.parseInt(value) || number.equals("")){
 				return true;
 			}
-			else
-				return false;
-		}
-
-		else if(condition.equals("lessThan")){
-			if(Integer.parseInt(number)<Integer.parseInt(value) || number.equals("")){
+		} else if(condition.equals("is less than")){
+			if(Integer.parseInt(number) < Integer.parseInt(value) || number.equals("")){
 				return true;
 			}
-			else
-				return false;
 		}
-		else
-			return false;
+		return false;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import com.vertis.formbuilder.util.FormBuilderUtil;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -60,6 +61,7 @@ public class FullNameXml implements IField {
 	String lastName="";
 	@Expose
 	String fullName="";
+	private Typeface font;
 
 	//constructor to populate config
 	public FullNameXml(FieldConfig fcg){
@@ -72,17 +74,18 @@ public class FullNameXml implements IField {
 	//if focus lost, setValues is called
 	//if focus gained, noErrorMessage is called
 	public void createForm(Activity context) {
+		font = new FormBuilderUtil().getFontFromRes(context);
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
 		subForm=(LinearLayout) inflater.inflate(R.layout.fullname,null);
 		headingText = (TextView) subForm.findViewById(R.id.textView1);
 		prefixBox = (Spinner) subForm.findViewById(R.id.spinner1);
 		firstNameTextBox = (EditText) subForm.findViewById(R.id.editText1);
 		lastNameTextBox = (EditText) subForm.findViewById(R.id.editText2);
-		headingText.setTypeface(getFontFromRes(R.raw.roboto, context));
-		firstNameTextBox.setTypeface(getFontFromRes(R.raw.roboto, context));
-		lastNameTextBox.setTypeface(getFontFromRes(R.raw.roboto, context));
-		firstNameTextBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
-		lastNameTextBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
+		headingText.setTypeface(font);
+		firstNameTextBox.setTypeface(font);
+		lastNameTextBox.setTypeface(font);
+		firstNameTextBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 14);
+		lastNameTextBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 14);
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
@@ -90,33 +93,6 @@ public class FullNameXml implements IField {
 		noErrorMessage();
 	}
 
-	private Typeface getFontFromRes(int resource, Context context)
-	{ 
-		Typeface tf = null;
-		InputStream is = null;
-		try {
-			is = context.getResources().openRawResource(resource);
-		}
-		catch(NotFoundException e) {
-		}
-		String outPath = context.getCacheDir() + "/tmp" + System.currentTimeMillis()+".raw";
-		try
-		{
-			byte[] buffer = new byte[is.available()];
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outPath));
-			int l = 0;
-			while((l = is.read(buffer)) > 0)
-				bos.write(buffer, 0, l);
-			bos.close();
-			tf = Typeface.createFromFile(outPath);
-			new File(outPath).delete();
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-		return tf;      
-	}
 	private ArrayAdapter<SelectElement> getAdapter(Context context) {
 		return new CountriesArrayAdapter(context, getPrefixList(context));
 	}
@@ -247,10 +223,8 @@ public class FullNameXml implements IField {
 			if(fullName.toLowerCase().contains(value) || fullName.trim().equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-		else
 			return false;
+		}
+		return true;
 	}
 };

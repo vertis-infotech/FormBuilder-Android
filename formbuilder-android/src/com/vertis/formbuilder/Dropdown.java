@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import com.vertis.formbuilder.util.FormBuilderUtil;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.graphics.Typeface;
 
 @SuppressLint("ResourceAsColor")
 public class Dropdown implements IField{
@@ -30,6 +33,7 @@ public class Dropdown implements IField{
 	@Expose
 	String drop="";
 	int ddPosition=0;
+	private Typeface font;
 
 	public Dropdown(FieldConfig fcg){
 		this.config=fcg;
@@ -37,12 +41,15 @@ public class Dropdown implements IField{
 
 	@Override
 	public void createForm(Activity context) {
+		font = new FormBuilderUtil().getFontFromRes(context);
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
-		llDropdown=(LinearLayout) inflater.inflate(R.layout.drop_down_xml,null);
+		llDropdown=(LinearLayout) inflater.inflate(R.layout.drop_down_xml, null);
 		tvDropdown = (TextView) llDropdown.findViewById(R.id.textViewDropdown);
 		sDropdown =(Spinner) llDropdown.findViewById(R.id.spinnerDropdown);		
-		tvDropdown.setText(this.config.getLabel() + (this.config.getRequired()?"*":""));
+		tvDropdown.setText(this.config.getLabel() + (this.config.getRequired() ? "*" : ""));
 		tvDropdown.setTextColor(Color.BLACK);
+		tvDropdown.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		tvDropdown.setTypeface(font);
 		defineViewSettings(context);
 		setViewValues();
 		mapView();
@@ -155,10 +162,8 @@ public class Dropdown implements IField{
 			if(drop.equals(value) || drop.equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-		else
 			return false;
+		}
+		return true;
 	}
 }

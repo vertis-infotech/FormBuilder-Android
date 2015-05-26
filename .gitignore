@@ -1,2 +1,11 @@
 */bin/*
 */gen/*
+.idea/
+.gradle/
+*/.DS_Store
+gradle/
+gradlew
+gradlew.bat
+*/build/
+build/
+*.iml

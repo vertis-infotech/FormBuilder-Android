@@ -162,10 +162,8 @@ class Radio implements IField {
 			if(optionSelected.equals(value) || optionSelected.equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-		else
 			return false;
+		}
+		return true;
 	}
 };

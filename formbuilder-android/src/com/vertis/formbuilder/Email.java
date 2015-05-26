@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import com.vertis.formbuilder.util.FormBuilderUtil;
 
 public class Email implements IField{
 
@@ -42,6 +43,7 @@ public class Email implements IField{
 	String cid;
 	@Expose
 	String emailid="";
+	private Typeface font;
 
 	public Email(FieldConfig fcg){
 		this.config=fcg;
@@ -50,12 +52,13 @@ public class Email implements IField{
 	@SuppressLint("ResourceAsColor")
 	@Override
 	public void createForm(Activity context) {
+		font = new FormBuilderUtil().getFontFromRes(context);
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
 		em=(LinearLayout) inflater.inflate(R.layout.email,null);
 		emailTextBox = (TextView) em.findViewById(R.id.textViewEmail);
 		emailEditBox = (EditText) em.findViewById(R.id.editTextEmail);
-		emailEditBox.setTypeface(getFontFromRes(R.raw.roboto, context));
-		emailTextBox.setTypeface(getFontFromRes(R.raw.roboto, context));
+		emailEditBox.setTypeface(font);
+		emailTextBox.setTypeface(font);
 		emailEditBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		emailTextBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		emailTextBox.setTextColor(R.color.TextViewNormal);
@@ -64,34 +67,6 @@ public class Email implements IField{
 		mapView();
 		setValues();
 		noErrorMessage();
-	}
-
-	private Typeface getFontFromRes(int resource, Context context)
-	{ 
-		Typeface tf = null;
-		InputStream is = null;
-		try {
-			is = context.getResources().openRawResource(resource);
-		}
-		catch(NotFoundException e) {
-		}
-		String outPath = context.getCacheDir() + "/tmp" + System.currentTimeMillis()+".raw";
-		try
-		{
-			byte[] buffer = new byte[is.available()];
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outPath));
-			int l = 0;
-			while((l = is.read(buffer)) > 0)
-				bos.write(buffer, 0, l);
-			bos.close();
-			tf = Typeface.createFromFile(outPath);
-			new File(outPath).delete();
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-		return tf;      
 	}
 
 	@SuppressLint("ResourceAsColor")
@@ -201,10 +176,8 @@ public class Email implements IField{
 			if(emailid.equals(value) || emailid.equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-		else
 			return false;
+		}
+		return true;
 	}
 }

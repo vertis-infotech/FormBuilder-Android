@@ -186,10 +186,8 @@ public class SimpleEditText implements IField{
 			if(text.equals(value) || text.equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-		else
 			return false;
+		}
+		return true;
 	}
 }

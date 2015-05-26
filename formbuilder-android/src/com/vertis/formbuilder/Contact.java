@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import com.vertis.formbuilder.util.FormBuilderUtil;
 
 public class Contact implements IField{
 
@@ -40,6 +41,7 @@ public class Contact implements IField{
 	String cid;
 	@Expose
 	String contactNo="";
+	private Typeface font;
 
 	public Contact(FieldConfig fcg){
 		this.config=fcg;
@@ -48,14 +50,13 @@ public class Contact implements IField{
 	@SuppressLint("ResourceAsColor")
 	@Override
 	public void createForm(Activity context) {
+		font = new FormBuilderUtil().getFontFromRes(context);
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
 		llContact=(LinearLayout) inflater.inflate(R.layout.contact,null);
 		tvContact = (TextView) llContact.findViewById(R.id.textViewContact);
 		etContact = (EditText) llContact.findViewById(R.id.editTextContact);
-		etContact.setTypeface(getFontFromRes(R.raw.roboto, context));
-		tvContact.setTypeface(getFontFromRes(R.raw.roboto, context));
-		etContact.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
-		tvContact.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		setTextTypefaseAndTextSize(etContact, 12.5f);
+		setTextTypefaseAndTextSize(tvContact, 14);
 		tvContact.setTextColor(R.color.TextViewNormal);
 		defineViewSettings(context);
 		setViewValues();
@@ -64,44 +65,29 @@ public class Contact implements IField{
 		noErrorMessage();
 	}
 
-	private Typeface getFontFromRes(int resource, Context context)
-	{ 
-		Typeface tf = null;
-		InputStream is = null;
-		try {
-			is = context.getResources().openRawResource(resource);
-		}
-		catch(NotFoundException e) {
-		}
-		String outPath = context.getCacheDir() + "/tmp" + System.currentTimeMillis()+".raw";
-		try
-		{
-			byte[] buffer = new byte[is.available()];
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outPath));
-			int l = 0;
-			while((l = is.read(buffer)) > 0)
-				bos.write(buffer, 0, l);
-			bos.close();
-			tf = Typeface.createFromFile(outPath);
-			new File(outPath).delete();
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-		return tf;      
+	public void setTextTypefaseAndTextSize(TextView view, float size) {
+		view.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+		view.setTypeface(font);
 	}
 
 	@SuppressLint("ResourceAsColor")
 	private void noErrorMessage() {
 		if(tvContact==null)return;
-		tvContact.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		tvContact.setText(this.config.getLabel() + (this.config.getRequired() ? "*" : ""));
 		tvContact.setTextColor(R.color.TextViewNormal);
 	}
 
+	@SuppressLint("ResourceAsColor")
+	private void errorMessage(String message) {
+		if(tvContact==null)return;
+		tvContact.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
+		tvContact.setText(tvContact.getText() + message);
+		tvContact.setTextColor(R.color.ErrorMessage);
+	}
+
 	private void mapView() {
-		ViewLookup.mapField(this.config.getCid()+"_1", llContact);
-		ViewLookup.mapField(this.config.getCid()+"_1_1", etContact);
+		ViewLookup.mapField(this.config.getCid() + "_1", llContact);
+		ViewLookup.mapField(this.config.getCid() + "_1_1", etContact);
 	}
 
 	private void setViewValues() {
@@ -111,10 +97,10 @@ public class Contact implements IField{
 	}
 
 	private void defineViewSettings(Activity context) {
-		etContact.setOnFocusChangeListener( new OnFocusChangeListener() {
+		etContact.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				if(hasFocus)
+				if (hasFocus)
 					noErrorMessage();
 				else
 					setValues();
@@ -148,14 +134,6 @@ public class Contact implements IField{
 		Pattern pattern = Pattern.compile(contactPattern);
 		Matcher matcher = pattern.matcher(contactCheck);
 		return !matcher.matches();
-	}
-
-	@SuppressLint("ResourceAsColor")
-	private void errorMessage(String message) {
-		if(tvContact==null)return;
-		tvContact.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		tvContact.setText(tvContact.getText() + message);
-		tvContact.setTextColor(R.color.ErrorMessage);
 	}
 
 	@Override
@@ -199,10 +177,8 @@ public class Contact implements IField{
 			if(contactNo.equals(value) || contactNo.equals("")){
 				return true;
 			}
-			else 
-				return false;
-		}
-		else
 			return false;
+		}
+		return false;
 	}
 }

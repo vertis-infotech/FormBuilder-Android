@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
+import com.vertis.formbuilder.util.FormBuilderUtil;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,8 @@ public class Checkbox implements IField {
 		LayoutInflater inflater = (LayoutInflater) context.getLayoutInflater();
 		llCheckBox=(LinearLayout) inflater.inflate(R.layout.checkbox,null);
 		tvCheckBox = (TextView) llCheckBox.findViewById(R.id.tvCheckbox);
+		tvCheckBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
+		tvCheckBox.setTypeface(new FormBuilderUtil().getFontFromRes(context));
 		int i = 0;
 		if(cbValues != null)
 			cbValues.clear();
@@ -121,7 +125,7 @@ public class Checkbox implements IField {
 	private void errorMessage(String message) {
 		if(tvCheckBox==null)return;
 		tvCheckBox.setText(this.config.getLabel() + (this.config.getRequired()?"*":"") );
-		tvCheckBox.setText(tvCheckBox.getText() + " " + message);
+//		tvCheckBox.setText(tvCheckBox.getText() + " " + message);
 		tvCheckBox.setTextColor(R.color.ErrorMessage);
 	}
 
@@ -168,18 +172,13 @@ public class Checkbox implements IField {
 	@Override
 	public boolean validateDisplay(String value,String condition) {
 		if(condition.equals("equals")){
-			boolean check=false;
 			for (String checkedValue : checkedValues) {
 				if(checkedValue.equals(value)){
-					check=true;
+					return true;
 				}
 			}
-			if(check=true)
-				return true;
-			else
-				return false;
-		}
-		else
 			return false;
+		}
+		return true;
 	}
 }
