@@ -11,6 +11,7 @@ import com.google.gson.annotations.Expose;
 import com.vertis.formbuilder.parser.FieldConfig;
 import com.vertis.formbuilder.util.FormBuilderUtil;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -93,6 +94,11 @@ public class FullNameXml implements IField {
 		noErrorMessage();
 	}
 
+	private void addTextChangedListeners() {
+		firstNameTextBox.addTextChangedListener(new CustomTextChangeListener(config));
+		lastNameTextBox.addTextChangedListener(new CustomTextChangeListener(config));
+	}
+
 	private ArrayAdapter<SelectElement> getAdapter(Context context) {
 		return new CountriesArrayAdapter(context, getPrefixList(context));
 	}
@@ -167,7 +173,7 @@ public class FullNameXml implements IField {
 			lastName=lastNameTextBox.getText().toString();
 			prefixPosition=prefixBox.getSelectedItemPosition();
 			prefix=prefixBox.getSelectedItem().toString();
-			fullName=firstName+lastName;
+			fullName=firstName+" "+lastName;
 		}
 		validate();
 	}
@@ -220,7 +226,7 @@ public class FullNameXml implements IField {
 
 	public boolean validateDisplay(String value,String condition) {
 		if(condition.equals("equals")){
-			if(fullName.toLowerCase().contains(value) || fullName.trim().equals("")){
+			if(fullName.toLowerCase().contains(value.toLowerCase()) || fullName.trim().equals("")){
 				return true;
 			}
 			return false;

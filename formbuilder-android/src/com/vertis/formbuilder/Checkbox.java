@@ -173,8 +173,7 @@ public class Checkbox implements IField {
 	public boolean validateDisplay(String value,String condition) {
 		if(condition.equals("equals")){
 			for (String checkedValue : checkedValues) {
-				if(checkedValue.equals(value)){
-					return true;
+				if(checkedValue.toLowerCase().equals(value.toLowerCase())){
 				}
 			}
 			return false;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -55,7 +56,7 @@ public class Address implements IField {
 	String state="";
 	@Expose
 	String zip="";
-	@Expose
+	
 	String fullAddress="";
 	private Typeface mFont;
 
@@ -102,6 +103,13 @@ public class Address implements IField {
 		setTextSize(cityEditText, 12.5f);
 		setTextSize(stateEditText, 12.5f);
 		setTextSize(zipEditText, 12.5f);
+	}
+
+	private void addTextChangeListeners() {
+		streetEditText.addTextChangedListener(new CustomTextChangeListener(config));
+		cityEditText.addTextChangedListener(new CustomTextChangeListener(config));
+		stateEditText.addTextChangedListener(new CustomTextChangeListener(config));
+		zipEditText.addTextChangedListener(new CustomTextChangeListener(config));
 	}
 
 	public void setTextSize(TextView view, float size){
@@ -246,7 +254,7 @@ public class Address implements IField {
 			zip=zipEditText.getText().toString();
 			countryPosition=countriesSpinner.getSelectedItemPosition();
 			country=countriesSpinner.getSelectedItem().toString();
-			fullAddress=street+city+state+zip+country;
+			fullAddress=street+" "+city+" "+state+" "+zip+" "+country;
 		}
 		validate();
 	}
@@ -288,8 +296,8 @@ public class Address implements IField {
 	}
 
 	public boolean validateDisplay(String value,String condition) {
-		if (condition.equals("equals")) {
-			if (fullAddress.toLowerCase().contains(value) || fullAddress.trim().equals("")) {
+		if(condition.equals("equals")){
+			if(fullAddress.toLowerCase().contains(value.toLowerCase()) || fullAddress.trim().equals("")){
 				return true;
 			}
 			return false;

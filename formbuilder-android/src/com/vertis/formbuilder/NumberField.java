@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -56,7 +57,6 @@ public class NumberField implements IField{
 		etNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP,(float) 12.5);
 		tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 		tvNumber.setTextColor(R.color.TextViewNormal);
-		
 		etNumber.addTextChangedListener(new CustomTextChangeListener(config));
 
 		defineViewSettings(context);

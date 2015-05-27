@@ -159,7 +159,7 @@ public class Dropdown implements IField{
 
 	public boolean validateDisplay(String value,String condition) {
 		if(condition.equals("equals")){
-			if(drop.equals(value) || drop.equals("")){
+			if(drop.toLowerCase().equals(value.toLowerCase()) || drop.equals("")){
 				return true;
 			}
 			return false;

@@ -10,6 +10,8 @@ import com.google.gson.GsonBuilder;
 import com.vertis.formbuilder.parser.FieldConfig;
 import com.vertis.formbuilder.parser.FormJson;
 
+import Listeners.CheckConditions;
+import Listeners.TextChangeListener;
 import android.app.Activity;
 import android.view.Gravity;
 import android.view.View;
@@ -18,8 +20,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class FormBuilder {
-	
-	static TreeMap<Integer,ArrayList<IField>> fields = new TreeMap<Integer, ArrayList<IField>>();
+
+	public static TreeMap<Integer,ArrayList<IField>> fields = new TreeMap<Integer, ArrayList<IField>>();
 	int currentSection;
 	/**
 	 * Private Variables:
@@ -41,7 +43,7 @@ public class FormBuilder {
 	public FormBuilder() {
 		fields =  new TreeMap<Integer, ArrayList<IField>>();
 	}
-	
+
 	/**
 	 * 
 	 * previous and next button will be used if there are section breaks
@@ -68,6 +70,12 @@ public class FormBuilder {
 			}
 			fields.get(fcg.getSection_id()).add(ifield);
 		}
+		
+		for(FieldConfig fcg : fieldConfigs){
+			CheckConditions checkConditionsObject=new CheckConditions(fcg);
+			checkConditionsObject.loopOverCheckCondition();
+		}
+		
 		this.context=context;
 		if(fields.size()!=1){ 
 			/**
