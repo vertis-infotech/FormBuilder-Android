@@ -10,13 +10,18 @@ import com.google.gson.GsonBuilder;
 import com.vertis.formbuilder.parser.FieldConfig;
 import com.vertis.formbuilder.parser.FormJson;
 
+import Listeners.CheckConditions;
+import Listeners.TextChangeListener;
 import android.app.Activity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class FormBuilder {
-	TreeMap<Integer,ArrayList<IField>> fields = new TreeMap<Integer, ArrayList<IField>>();
+
+	public static TreeMap<Integer,ArrayList<IField>> fields = new TreeMap<Integer, ArrayList<IField>>();
 	int currentSection;
 	/**
 	 * Private Variables:
@@ -24,7 +29,7 @@ public class FormBuilder {
 	 * (section id mapped to all views in that section )
 	 * currentSection stores section id of the section currently displayed
 	 */
-	
+
 	LinearLayout form;
 	Activity context;
 	/**
@@ -35,12 +40,16 @@ public class FormBuilder {
 	LinearLayout previousNextContainer;
 	Button previousButton;
 	Button nextButton;
+	public FormBuilder() {
+		fields =  new TreeMap<Integer, ArrayList<IField>>();
+	}
+
 	/**
 	 * 
 	 * previous and next button will be used if there are section breaks
 	 */
-	
-	
+
+
 	//render generates the required views(from json) and adds the required views to linearlayout passed to the functions
 	public void setup(String json , LinearLayout form,Activity context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 
@@ -55,12 +64,18 @@ public class FormBuilder {
 			Constructor<?> ctor =ViewImpl.getConstructor(FieldConfig.class);			
 			IField ifield = (IField) ctor.newInstance(fcg);
 
-		//putting each field in appropriate ArrayList(mapped to section id)
+			//putting each field in appropriate ArrayList(mapped to section id)
 			if(fields.get(fcg.getSection_id()) == null ){
 				fields.put(fcg.getSection_id(), new ArrayList<IField>());
 			}
 			fields.get(fcg.getSection_id()).add(ifield);
 		}
+		
+		for(FieldConfig fcg : fieldConfigs){
+			CheckConditions checkConditionsObject=new CheckConditions(fcg);
+			checkConditionsObject.loopOverCheckCondition();
+		}
+		
 		this.context=context;
 		if(fields.size()!=1){ 
 			/**
@@ -73,8 +88,13 @@ public class FormBuilder {
 			this.form.setOrientation(LinearLayout.VERTICAL);
 			this.previousNextContainer= new LinearLayout(context);
 			this.previousNextContainer.setOrientation(LinearLayout.HORIZONTAL);
-			nextButton=new Button(context);
-			nextButton.setText("Next");
+			LinearLayout.LayoutParams abc =  new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			abc.setMargins(0, 10, 0, 10);
+			this.previousNextContainer.setGravity(Gravity.RIGHT);
+			this.previousNextContainer.setLayoutParams(abc);
+			this.nextButton=new Button(context);
+			this.nextButton.setText("Next");
+			this.nextButton.setBackgroundResource(R.drawable.prev_next_buttons);
 			nextButton.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -82,18 +102,19 @@ public class FormBuilder {
 					next();
 				}
 			});
-			previousButton=new Button(context);
-			previousButton.setText("Previous");
-			previousButton.setOnClickListener(new View.OnClickListener() {
+			this.previousButton=new Button(context);
+			this.previousButton.setText("Previous");
+			this.previousButton.setBackgroundResource(R.drawable.prev_next_buttons);
+			this.previousButton.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					previous();
 				}
 			});
-			previousNextContainer.addView(previousButton);
-			previousNextContainer.addView(nextButton);
-			previousButton.setEnabled(false);
+			this.previousNextContainer.addView(previousButton);
+			this.previousNextContainer.addView(nextButton);
+			this.previousButton.setEnabled(false);
 
 			form.addView(this.form);
 			form.addView(this.previousNextContainer);
@@ -123,7 +144,7 @@ public class FormBuilder {
 				form.addView(field.getView());
 		}
 	}
-	
+
 	//delete all views currently displayed after saving their data( done by clearViews)
 	public void clear(int sectionId){
 		for(IField field : fields.get(sectionId))
@@ -136,16 +157,16 @@ public class FormBuilder {
 	//Submit works only if you are in the last section and all fields are valid
 	//returns output json which is {values:[array of json objects from field.toJson ]}
 	public String submit(){
-		
+
 		if(fields.higherEntry(currentSection)!=null)
 			return "Not ready to submit!!!";			
-			
+
 		for(IField field: fields.get(currentSection)){
-				field.setValues();
-				if(!field.validate())
-					return "Not ready to submit!!!";
+			field.setValues();
+			if(!field.validate())
+				return "Not ready to submit!!!";
 		}
-		
+
 		ResultJson rj = new ResultJson();
 
 		for (ArrayList<IField> fieldList: this.fields.values()) {
@@ -181,7 +202,7 @@ public class FormBuilder {
 			nextButton.setEnabled(false);			
 		}
 	}
-	
+
 	/**
 	 * called when previous is pressed
 	 * activates next button
