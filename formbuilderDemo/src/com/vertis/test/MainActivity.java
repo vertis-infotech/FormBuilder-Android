@@ -12,8 +12,8 @@ import com.vertis.formbuilder.FormBuilder;
 
 public class MainActivity extends Activity {
 	private String result;
-	FormBuilder formBuilder = new FormBuilder(); 
-	private LinearLayout form; 
+	FormBuilder formBuilder = new FormBuilder();
+	private LinearLayout form;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +37,10 @@ public class MainActivity extends Activity {
 		//				",{\"label\":\"Number\", \"field_type\":\"number\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c14\"}" +
 		//				"]}";
 
-		String jsonstr =	"{\"fields\":[{\"label\":\"Contact\",\"field_type\":\"contact\",\"required\":false,\"field_options\":{\"size\":\"small\"},\"field_options\":{\"options\":[{\"label\":\"y\",\"checked\":false},{\"label\":\"n\",\"checked\":false}]},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"911\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":false},{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"911\",\"action\":\"hide\",\"target\":\"c8\",\"isSource\":false}],\"cid\":\"c6\"},"
-				+ "{\"label\":\"Birthdate\",\"field_type\":\"birth_date\",\"required\":false,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"911\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":true}],\"cid\":\"c4\"},"
-				+ "{\"label\":\"Address\",\"field_type\":\"address\",\"required\":true,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"911\",\"action\":\"hide\",\"target\":\"c8\",\"isSource\":true}],\"cid\":\"c8\"}],\"latest_cid\":8}";
+		String jsonstr =	"{\"fields\":[{\"label\":\"Contact\",\"field_type\":\"contact\",\"required\":false,\"field_options\":{\"size\":\"small\"},\"field_options\":{\"options\":[{\"label\":\"y\",\"checked\":false},{\"label\":\"n\",\"checked\":false}]},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"100\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":false},{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"100\",\"action\":\"hide\",\"target\":\"c28\",\"isSource\":false}],\"cid\":\"c6\"},"
+				+ "{\"label\":\"Birthdate\",\"field_type\":\"birth_date\",\"required\":false,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"100\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":true}],\"cid\":\"c4\"}"
+                + ",{\"label\":\"Untitled\", \"field_type\":\"section_break\", \"required\":false, \"field_options\":{}, \"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"100\",\"action\":\"hide\",\"target\":\"c28\",\"isSource\":false}], \"cid\":\"c28\",\"section_id\":1}"
+				+ ",{\"label\":\"Address\",\"field_type\":\"address\",\"required\":true,\"field_options\":{},\"conditions\":[],\"section_id\":1,\"cid\":\"c8\"}],\"latest_cid\":8}";
 
 		/**
 		 * Set up formbuiler by giving json, linearlayout where form is to be displayed
@@ -65,7 +66,7 @@ public class MainActivity extends Activity {
 	 */
 	public void submit(View button) {
 		this.result= formBuilder.submit();
-		Toast.makeText(this, this.result, Toast.LENGTH_LONG).show();			
+		Toast.makeText(this, this.result, Toast.LENGTH_LONG).show();
 	}
 
 	public void save(View button) {

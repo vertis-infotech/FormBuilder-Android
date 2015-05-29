@@ -208,11 +208,11 @@ public class Address implements IField {
 	public boolean validate() {
 		boolean valid = false;
 		try {
-			checkEmpty(streetTextView, street, " Street Required");
-			checkEmpty(cityTextView, city, " City Required");
-			checkEmpty(stateTextView, state,  " State Required");
-			checkEmpty(zipTextView, zip, " Zip Required");
-			checkEmpty(countryTextView, country, " Country Required");
+            valid = checkEmpty(streetTextView, street, " Street Required");
+            valid = checkEmpty(cityTextView, city, " City Required");
+            valid = checkEmpty(stateTextView, state,  " State Required");
+            valid = checkEmpty(zipTextView, zip, " Zip Required");
+            valid = checkEmpty(countryTextView, country, " Country Required");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -304,4 +304,12 @@ public class Address implements IField {
 		}
 		return true;
 	}
+
+    public boolean isHidden(){
+        if(ad!=null) {
+            return !ad.isShown();
+        } else {
+            return false;
+        }
+    }
 }

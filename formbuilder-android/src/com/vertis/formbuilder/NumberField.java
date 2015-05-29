@@ -178,4 +178,12 @@ public class NumberField implements IField{
 		}
 		return false;
 	}
+
+    public boolean isHidden(){
+        if(llNumber!=null) {
+            return !llNumber.isShown();
+        } else {
+            return false;
+        }
+    }
 }

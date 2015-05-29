@@ -166,4 +166,12 @@ class Radio implements IField {
 		}
 		return true;
 	}
+
+    public boolean isHidden(){
+        if(subForm!=null) {
+            return !subForm.isShown();
+        } else {
+            return false;
+        }
+    }
 };

@@ -166,4 +166,12 @@ public class Dropdown implements IField{
 		}
 		return true;
 	}
+
+    public boolean isHidden(){
+        if(llDropdown!=null) {
+            return !llDropdown.isShown();
+        } else {
+            return false;
+        }
+    }
 }

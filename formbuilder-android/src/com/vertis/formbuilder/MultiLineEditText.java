@@ -169,4 +169,12 @@ public class MultiLineEditText implements IField{
 		}
 		return true;
 	}
+
+    public boolean isHidden(){
+        if(llEditText!=null) {
+            return !llEditText.isShown();
+        } else {
+            return false;
+        }
+    }
 }

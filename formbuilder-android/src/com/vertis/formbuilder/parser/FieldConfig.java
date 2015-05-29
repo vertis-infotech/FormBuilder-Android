@@ -28,21 +28,6 @@ public class FieldConfig {
 	public void setField_options(FieldOptions field_options) {
 		this.field_options = field_options;
 	}
-
-	//	public ArrayList<AllOptions> getOptions() {
-	//		return options;
-	//	}
-	//	
-	//	public void setOptions(ArrayList<AllOptions> options) {
-	//		this.options = options;
-	//	}
-
-//	public ArrayList<HashMap<String, String>> getConditions() {
-//		return conditions;
-//	}
-//	public void setConditions(ArrayList<HashMap<String, String>> conditions) {
-//		this.conditions = conditions;
-//	}
 	
 	public ArrayList<Conditions> getConditions() {
 		return conditions;
@@ -64,7 +49,16 @@ public class FieldConfig {
 		this.section_id = section_id;
 	}
 
-	String label;
+    public FieldConfig() { }
+
+    public FieldConfig(String cid, int section_id, String field_type, FieldOptions field_options) {
+        this.cid = cid;
+        this.section_id = section_id;
+        this.field_options = field_options;
+        this.field_type = field_type;
+    }
+
+    String label;
 	String field_type;
 	Boolean required;
 	ArrayList<AllOptions> options = new ArrayList<AllOptions>();

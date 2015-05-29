@@ -227,4 +227,12 @@ public class Capture implements IField{
 		}
 		return true;
 	}
+
+    public boolean isHidden(){
+        if(llCapture!=null) {
+            return !llCapture.isShown();
+        } else {
+            return false;
+        }
+    }
 }

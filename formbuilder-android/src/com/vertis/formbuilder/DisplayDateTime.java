@@ -288,4 +288,12 @@ public class DisplayDateTime implements IField {
 		}
 		return false;
 	}
+
+    public boolean isHidden(){
+        if(llDisplayDateTime!=null) {
+            return !llDisplayDateTime.isShown();
+        } else {
+            return false;
+        }
+    }
 }

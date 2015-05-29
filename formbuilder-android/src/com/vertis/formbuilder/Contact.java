@@ -41,7 +41,7 @@ public class Contact implements IField{
 	@Expose
 	String cid;
 	@Expose
-	String contactNo="";
+	String contactNo="10";
 	private Typeface font;
 
 	public Contact(FieldConfig fcg){
@@ -185,4 +185,12 @@ public class Contact implements IField{
 		}
 		return false;
 	}
+
+    public boolean isHidden(){
+        if(llContact!=null) {
+            return !llContact.isShown();
+        } else {
+            return false;
+        }
+    }
 }

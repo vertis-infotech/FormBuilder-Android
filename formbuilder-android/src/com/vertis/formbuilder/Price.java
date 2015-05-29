@@ -213,4 +213,12 @@ public class Price implements IField {
 		}
 		return false;
 	}
+
+    public boolean isHidden(){
+        if(llPrice!=null) {
+            return !llPrice.isShown();
+        } else {
+            return false;
+        }
+    }
 }

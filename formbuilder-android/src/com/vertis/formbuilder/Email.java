@@ -184,4 +184,12 @@ public class Email implements IField{
 		}
 		return true;
 	}
+
+    public boolean isHidden(){
+        if(em!=null) {
+            return !em.isShown();
+        } else {
+            return false;
+        }
+    }
 }

@@ -63,5 +63,7 @@ public interface IField {
 	public abstract void showField();
 	
 	public abstract boolean validateDisplay(String value,String condition);
+
+    public boolean isHidden();
 	
 }

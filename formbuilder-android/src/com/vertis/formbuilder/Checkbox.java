@@ -180,4 +180,12 @@ public class Checkbox implements IField {
 		}
 		return true;
 	}
+
+    public boolean isHidden(){
+        if(llCheckBox!=null) {
+            return !llCheckBox.isShown();
+        } else {
+            return false;
+        }
+    }
 }

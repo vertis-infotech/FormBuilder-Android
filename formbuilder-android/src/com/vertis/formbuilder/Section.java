@@ -8,55 +8,61 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 public class Section implements IField {
-	Activity context;
-	FieldConfig config;
+    Activity context;
+    FieldConfig config;
+    LinearLayout emptyLayout;
+    boolean hide_section;
 
-	public Section(FieldConfig fcg){
-		config=fcg;
-	}
+    public Section(FieldConfig fcg){
+        config=fcg;
+    }
 
-	@Override
-	public void createForm(Activity context) {
-	this.context=context;
-	}
+    @Override
+    public void createForm(Activity context) {
+        this.context=context;
+        emptyLayout = new LinearLayout(context);
+        emptyLayout.setOrientation(LinearLayout.VERTICAL);
+        emptyLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    }
 
-	@Override
-	public ViewGroup getView() {
-		LinearLayout emptyLayout = new LinearLayout(context);
-		emptyLayout.setLayoutParams(new LayoutParams(0, 0));
-		return emptyLayout;
-	}
+    @Override
+    public ViewGroup getView() {
+        return emptyLayout;
+    }
 
-	@Override
-	public boolean validate() {
-		return true;
-	}
+    @Override
+    public boolean validate() {
+        return true;
+    }
 
-	@Override
-	public void setValues() {
-	}
+    @Override
+    public void setValues() {
+    }
 
-	@Override
-	public void clearViews() {
+    @Override
+    public void clearViews() {
 
-	}
-	
-	public String getCIDValue() {
-		return this.config.getCid();
-	}
+    }
 
-	@Override
-	public void hideField() {
-		
-	}
+    public String getCIDValue() {
+        return this.config.getCid();
+    }
 
-	@Override
-	public void showField() {
-		
-	}
+    @Override
+    public void hideField() {
+        this.hide_section = true;
+    }
 
-	public boolean validateDisplay(String value,String condition) {
-		return false;
-	}
+    @Override
+    public void showField() {
+        this.hide_section = false;
+    }
 
+    public boolean isHidden(){
+        return this.hide_section;
+    }
+
+    public boolean validateDisplay(String value,String condition) {
+        return false;
+    }
 }
