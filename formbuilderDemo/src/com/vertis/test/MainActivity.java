@@ -37,10 +37,9 @@ public class MainActivity extends Activity {
 		//				",{\"label\":\"Number\", \"field_type\":\"number\", \"required\":true, \"field_options\":{}, \"conditions\":[], \"cid\":\"c14\"}" +
 		//				"]}";
 
-		String jsonstr =	"{\"fields\":[{\"label\":\"Contact\",\"field_type\":\"contact\",\"required\":false,\"field_options\":{\"size\":\"small\"},\"field_options\":{\"options\":[{\"label\":\"y\",\"checked\":false},{\"label\":\"n\",\"checked\":false}]},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"100\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":false},{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"100\",\"action\":\"hide\",\"target\":\"c28\",\"isSource\":false}],\"cid\":\"c6\"},"
-				+ "{\"label\":\"Birthdate\",\"field_type\":\"birth_date\",\"required\":false,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"100\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":true}],\"cid\":\"c4\"}"
-                + ",{\"label\":\"Untitled\", \"field_type\":\"section_break\", \"required\":false, \"field_options\":{}, \"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"100\",\"action\":\"hide\",\"target\":\"c28\",\"isSource\":false}], \"cid\":\"c28\",\"section_id\":1}"
-				+ ",{\"label\":\"Address\",\"field_type\":\"address\",\"required\":true,\"field_options\":{},\"conditions\":[],\"section_id\":1,\"cid\":\"c8\"}],\"latest_cid\":8}";
+		String jsonstr =	"{\"fields\":[{\"label\":\"BirthDate\",\"field_type\":\"birth_date\",\"required\":false,\"field_options\":{\"size\":\"small\"},\"field_options\":{\"options\":[{\"label\":\"01/05/2013\",\"checked\":false},{\"label\":\"n\",\"checked\":false}]},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"01/05/2013\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":false},{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"01/05/2013\",\"action\":\"hide\",\"target\":\"c8\",\"isSource\":false}],\"cid\":\"c6\"},"
+				+ "{\"label\":\"Birthdate\",\"field_type\":\"birth_date\",\"required\":false,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"01/05/2013\",\"action\":\"hide\",\"target\":\"c4\",\"isSource\":true}],\"cid\":\"c4\"}"
+				+ ",{\"label\":\"Address\",\"field_type\":\"address\",\"required\":true,\"field_options\":{},\"conditions\":[{\"source\":\"c6\",\"condition\":\"equals\",\"value\":\"01/05/2013\",\"action\":\"hide\",\"target\":\"c8\",\"isSource\":true}],\"cid\":\"c8\"}],\"latest_cid\":8}";
 
 		/**
 		 * Set up formbuiler by giving json, linearlayout where form is to be displayed

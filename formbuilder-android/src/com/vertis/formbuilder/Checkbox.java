@@ -3,6 +3,7 @@ package com.vertis.formbuilder;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.Expose;
+import com.vertis.formbuilder.Listeners.CheckboxChangeListener;
 import com.vertis.formbuilder.parser.FieldConfig;
 import com.vertis.formbuilder.util.FormBuilderUtil;
 
@@ -94,6 +95,7 @@ public class Checkbox implements IField {
 		llCheckBox.addView(box);
 		box.setButtonDrawable(R.drawable.check_custom);
 		cbValues.add(box);
+        box.setOnCheckedChangeListener(new CheckboxChangeListener(config));
 	}
 
 	@Override
@@ -174,6 +176,7 @@ public class Checkbox implements IField {
 		if(condition.equals("equals")){
 			for (String checkedValue : checkedValues) {
 				if(checkedValue.toLowerCase().equals(value.toLowerCase())){
+                    return true;
 				}
 			}
 			return false;

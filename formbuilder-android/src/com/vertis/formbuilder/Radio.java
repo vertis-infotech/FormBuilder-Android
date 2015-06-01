@@ -1,6 +1,7 @@
 package com.vertis.formbuilder;
 
 import com.google.gson.annotations.Expose;
+import com.vertis.formbuilder.Listeners.RadioChangeListener;
 import com.vertis.formbuilder.parser.FieldConfig;
 
 import android.annotation.SuppressLint;
@@ -58,7 +59,8 @@ class Radio implements IField {
 		int i = 0;
 		for (i = 0; i < this.config.getField_options().getOptions().size(); i++) {
 			addButton(i, context);
-		}		
+		}
+        radioGroup.setOnCheckedChangeListener(new RadioChangeListener(config));
 		mapView();
 		setViewValues();
 	}
@@ -86,6 +88,7 @@ class Radio implements IField {
 		radioGroup.addView(button);
 		if(optionSelected!= null && !TextUtils.isEmpty(optionSelected)&& this.config.getField_options().getOptions().get(i).getLabel().equals(optionSelected))
 			radioGroup.check(button.getId());
+
 	}
 
 	public boolean validate() {
