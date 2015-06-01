@@ -1,11 +1,5 @@
-package Listeners;
+package com.vertis.formbuilder.Listeners;
 
-import java.util.ArrayList;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.vertis.formbuilder.FormBuilder;
-import com.vertis.formbuilder.IField;
 import com.vertis.formbuilder.parser.FieldConfig;
 
 import android.text.Editable;

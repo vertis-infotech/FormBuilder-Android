@@ -1,16 +1,7 @@
 package com.vertis.formbuilder;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import Listeners.TextChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources.NotFoundException;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
