@@ -56,4 +56,14 @@ public interface IField {
 	
 	public abstract void clearViews();
 	
+	public abstract String getCIDValue();
+	
+	public abstract void hideField();
+	
+	public abstract void showField();
+	
+	public abstract boolean validateDisplay(String value,String condition);
+
+    public boolean isHidden();
+	
 }

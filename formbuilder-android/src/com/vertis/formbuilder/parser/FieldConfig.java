@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FieldConfig {
-
 	public String getLabel() {
 		return label;
 	}
@@ -23,18 +22,20 @@ public class FieldConfig {
 	public void setRequired(Boolean required) {
 		this.required = required;
 	}
-	public HashMap<String, String> getField_options() {
+	public FieldOptions getField_options() {
 		return field_options;
 	}
-	public void setField_options(HashMap<String, String> field_options) {
+	public void setField_options(FieldOptions field_options) {
 		this.field_options = field_options;
 	}
-	public ArrayList<HashMap<String, String>> getConditions() {
+	
+	public ArrayList<Conditions> getConditions() {
 		return conditions;
 	}
-	public void setConditions(ArrayList<HashMap<String, String>> conditions) {
-		this.conditions = conditions;
+	public void setConditions(ArrayList<Conditions> condition) {
+		this.conditions = condition;
 	}
+	
 	public String getCid() {
 		return cid;
 	}
@@ -48,11 +49,22 @@ public class FieldConfig {
 		this.section_id = section_id;
 	}
 
-	String label;
+    public FieldConfig() { }
+
+    public FieldConfig(String cid, int section_id, String field_type, FieldOptions field_options) {
+        this.cid = cid;
+        this.section_id = section_id;
+        this.field_options = field_options;
+        this.field_type = field_type;
+    }
+
+    String label;
 	String field_type;
 	Boolean required;
-	HashMap<String, String> field_options = new HashMap<String, String>();
-	ArrayList<HashMap<String,String>> conditions = new ArrayList<HashMap<String,String>>();
+	ArrayList<AllOptions> options = new ArrayList<AllOptions>();
+	FieldOptions field_options = new FieldOptions();
+	ArrayList<Conditions> conditions= new ArrayList<Conditions>();
+	//ArrayList<HashMap<String,String>> conditions = new ArrayList<HashMap<String,String>>();
 	String cid;
 	int section_id=0;
 }
